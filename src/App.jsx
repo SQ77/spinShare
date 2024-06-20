@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
+import Revo from "./components/Revo";
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -33,7 +34,7 @@ const App = () => {
       location: newClass.location,
       rider: newClass.rider,
       bike: newClass.bike,
-      notes: newClass.notes,
+      notes: newClass.notes === undefined ? "None" : newClass.notes,
       userId: auth?.currentUser?.uid
     })
     {/*
@@ -102,6 +103,7 @@ const App = () => {
           <Route path="/add-friends/:userId" element={<AddFriends />} />
           <Route path="/mail/:userId" element={<Mail />} />
           <Route path="/absolute/:location" element={<Absolute />} />
+          <Route path="/revo/:location" element={<Revo />} />
           <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

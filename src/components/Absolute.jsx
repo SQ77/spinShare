@@ -85,7 +85,7 @@ const Absolute = () => {
     
     return (
         <>
-            <h1 className="text-3xl font-bold mt-8 mb-4 text-center">Absolute <Dropdown currLocation={location} handleClick={dropdownClicked}/> Schedule</h1> 
+            <h1 className="text-3xl font-bold mt-8 mb-4 text-center">Absolute <Dropdown currLocation={location} handleClick={dropdownClicked} studio="absolute"/> Schedule</h1> 
             <div className="p-4 ml-5 mt-5 mb-5">
                 <div className="grid grid-cols-7 gap-7">
                     {sortedDates.map((date, index) => (

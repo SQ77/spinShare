@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Dropdown = ({ currLocation, handleClick }) => {
+const Dropdown = ({ currLocation, handleClick, studio }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
-    const locations = ["STV", "CTP", "MW", "KTG"];
+    let locations = [];
+    if (studio === "absolute") {
+      locations = ["STV", "CTP", "MW", "KTG"];
+    } else {
+      locations = ["TP", "Orchard", "Bugis", "Suntec"];
+    }
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -61,7 +66,7 @@ const Dropdown = ({ currLocation, handleClick }) => {
             <div className="py-1" role="none">
                 {locations.filter(loc => loc !== currLocation).map((location, index) => (
                     <div role="menuitem" key={index} onClick={() => handleClick()}>
-                    <NavLink to={`/absolute/${location}`}
+                    <NavLink to={`/${studio}/${location}`}
                     className="block px-4 py-2 text-sm text-black hover:bg-gray-200"
                     >
                         {location}
