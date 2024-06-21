@@ -65,13 +65,13 @@ const Auth = () => {
           )}
           {user && (
             <>
-              <NavLink to={`/profile/${auth?.currentUser?.uid}`} className="text-black bg-gray-400 hover:bg-gray-500 rounded-md px-3 py-2">
+              <NavLink to={`/profile/${auth?.currentUser?.uid}`} className="hidden md:block text-black bg-gray-400 hover:bg-gray-500 rounded-md px-3 py-2">
                 <div className="flex">
                   Welcome {user.displayName}
                   {unreadMessages && <RiErrorWarningFill className="l-1 w-5 h-5"/>}
                 </div>
               </NavLink>
-              <button onClick={signout} className="text-white bg-red-500 hover:bg-red-700 rounded-md px-3 py-2">Sign Out</button>
+              <button onClick={signout} className="text-white bg-red-500 hover:bg-red-700 rounded-md mt-5 md:mt-0 px-3 py-2">Sign Out</button>
             </>
           )}
         </>)}

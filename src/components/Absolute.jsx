@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 const Absolute = () => {
     const [schedules, setSchedules] = useState([]);
+    const [expandedRows, setExpandedRows] = useState(Array(7).fill(false));
     const { location } = useParams();
     const navigate = useNavigate();
 
@@ -27,6 +28,14 @@ const Absolute = () => {
       };
       getClasses();
     }, []);
+
+    const toggleExpand = (index) => {
+        setExpandedRows((prev) => {
+            const newExpandedRows = [...prev];
+            newExpandedRows[index] = !newExpandedRows[index];
+            return newExpandedRows;
+        });
+    };
   
     // Convert time to a comparable value
     const timeToNumber = (time) => {
@@ -87,19 +96,45 @@ const Absolute = () => {
         <>
             <h1 className="text-3xl font-bold mt-8 mb-4 text-center">Absolute <Dropdown currLocation={location} handleClick={dropdownClicked} studio="absolute"/> Schedule</h1> 
             <div className="p-4 ml-5 mt-5 mb-5">
-                <div className="grid grid-cols-7 gap-7">
+                <div className="hidden md:grid md:grid-cols-7 gap-7">
                     {sortedDates.map((date, index) => (
                     <div key={date} className="border p-5">
-                        <div className="text-center font-normal">{date} {days[index]}</div>
+                        <div className="text-center font-bold md:font-normal">{date} {days[index]}</div>
                         {groupedSchedules[date]
                         .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
                         .map((schedule, index) => (
                             <div key={index} className="mt-5 mb-5">
-                            <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
-                            <div className="text-s">{schedule.instructor}</div>
-                            <div className="text-s">{schedule.time}</div>
+                                <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
+                                <div className="text-s">{schedule.instructor}</div>
+                                <div className="text-s">{schedule.time}</div>
                             </div>
                         ))}
+                    </div>
+                    ))}
+                </div>
+
+                <div className="md:hidden">
+                    {sortedDates.map((date, index) => (
+                    <div key={index} className="border mb-3">
+                        <div 
+                        className="p-2 border text-center bg-gray-200 cursor-pointer h-auto"
+                        onClick={() => toggleExpand(index)}
+                        >
+                        {date} {days[index]}
+                        </div>
+                        {expandedRows[index] && (
+                            <div> 
+                            {groupedSchedules[date]
+                            .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
+                            .map((schedule, index) => (
+                                <div key={index} className="ml-5 mt-5 mb-5">
+                                    <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
+                                    <div className="text-s">{schedule.instructor}</div>
+                                    <div className="text-s">{schedule.time}</div>
+                                </div>
+                            ))}
+                            </div>
+                        )}
                     </div>
                     ))}
                 </div>

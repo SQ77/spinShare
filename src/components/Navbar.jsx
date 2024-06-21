@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import Auth from './Auth';
 import { auth } from "../FirebaseConfig";
 import CurrentUser from './CurrentUser';
+import Hamburger from './Hamburger';
 
 const Navbar = () => {
   const location = useLocation();
@@ -15,20 +16,21 @@ const Navbar = () => {
   return (
     <nav className="bg-indigo-700 border-b border-indigo-500">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
+          <div className="flex h-20 md:items-center md:justify-between">
             <div
-              className="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
+              className="flex flex-1 md:items-stretch md:justify-start"
             >
               {/* <!-- Logo --> */}
-              <NavLink to="/" className="flex flex-shrink-0 items-center mr-4">
+              <NavLink to="/" className="flex flex-shrink-0 items-center ml-2 md:ml-0 mr-4">
                 <img
                   className="h-11 w-auto"
                   src={logo}
                   alt="SpinShare"
                 />
               </NavLink>
-              <div className="md:ml-auto">
-                <div className="flex space-x-2">
+              <Hamburger />
+              <div className="ml-auto">
+                <div className="hidden md:flex md:space-x-2">
                   <NavLink to="/" className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive('/') && 'bg-black'}`}>Home</NavLink>
                   <NavLink to="/absolute/STV" 
                     className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/absolute/STV') || isActive('/absolute/CTP') || isActive('/absolute/MW') || isActive('/absolute/KTG')) && 'bg-black'}`}>Absolute</NavLink>
@@ -42,6 +44,9 @@ const Navbar = () => {
                         {user && <NavLink to={`/add-class/${user?.uid}`} className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive(`/add-class/${user?.uid}`) && 'bg-black'}`}>Add Class</NavLink>}
                       </>)}
                   </CurrentUser>
+                  <Auth />
+                </div>
+                <div className="flex md:hidden items-center">
                   <Auth />
                 </div>
               </div>

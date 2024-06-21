@@ -59,7 +59,7 @@ const FriendsList = ({userId}) => {
             </NavLink>
         </div>
         {isHovered && (
-        <div className="absolute bg-white border border-gray-300 p-2 rounded shadow-lg top-0 left-full mt-0 whitespace-nowrap"> 
+        <div className="hidden md:block absolute bg-white border border-gray-300 p-2 rounded shadow-lg top-0 left-full mt-0 whitespace-nowrap"> 
           Add Friends
         </div>
         )}

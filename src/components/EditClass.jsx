@@ -77,7 +77,7 @@ const EditClass = ({updateClassSubmit}) => {
     }
 
   return (
-    <div className="container mx-auto mt-8 py-5">
+    <div className="container mx-auto mt-8 px-8 md:px-1 py-5">
             <h1 className="text-3xl font-bold mb-4 text-center">Edit Class</h1>
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
                 <div className="mb-4">

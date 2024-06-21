@@ -37,30 +37,49 @@ const MyClasses = ({deleteClass}) => {
     }, []);
 
   return (
-    <div className="container mx-auto mt-8 px-8 py-5">
-            <h1 className="text-3xl font-bold mb-4">My Classes</h1>
-                {loading ? (<Spinners loading={loading} />) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {classes.map((classItem) => (
-                            <div key={classItem.id} className="bg-gray-200 p-4 rounded-md shadow-md">
-                                <p><strong>Date:</strong> {classItem.date.toDate().toDateString()}</p>
-                                <p><strong>Time:</strong> {classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})}</p>
-                                <p><strong>Instructor:</strong> {classItem.instructor}</p>
-                                <p><strong>Location:</strong> {classItem.location}</p>
-                                <p><strong>Rider:</strong> {classItem.rider}</p>
-                                <p><strong>Bike Number:</strong> {classItem.bike}</p>
-                                <p><strong>Notes:</strong> {classItem.notes}</p>
-                                <div className="flex justify-end mt-2">
-                                    <div className="flex">
-                                        <NavLink to={`/edit-class/${classItem.id}/${userId}`} className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
-                                            Edit
-                                        </NavLink>
-                                    </div>
-                                    <button onClick={() => onDeleteClick(classItem.id)} className="bg-red-400 hover:bg-red-600 text-black font-bold py-2 px-4 rounded">Delete</button>
+    <div className="container mx-auto mt-6 px-8 py-5">
+        <h1 className="text-3xl font-bold mb-4">Upcoming Classes</h1>
+            {loading ? (<Spinners loading={loading} />) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {classes.filter(item => item.date.toDate() >= new Date()).map((classItem) => (
+                        <div key={classItem.id} className="bg-gray-200 p-4 rounded-md shadow-md">
+                            <p><strong>Date:</strong> {classItem.date.toDate().toDateString()}</p>
+                            <p><strong>Time:</strong> {classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})}</p>
+                            <p><strong>Instructor:</strong> {classItem.instructor}</p>
+                            <p><strong>Location:</strong> {classItem.location}</p>
+                            <p><strong>Rider:</strong> {classItem.rider}</p>
+                            <p><strong>Bike Number:</strong> {classItem.bike}</p>
+                            <p><strong>Notes:</strong> {classItem.notes}</p>
+                            <div className="flex justify-end mt-2">
+                                <div className="flex">
+                                    <NavLink to={`/edit-class/${classItem.id}/${userId}`} className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
+                                        Edit
+                                    </NavLink>
                                 </div>
+                                <button onClick={() => onDeleteClick(classItem.id)} className="bg-red-400 hover:bg-red-600 text-black font-bold py-2 px-4 rounded">Delete</button>
                             </div>
-                        ))}
-                    </div>)}
+                        </div>
+                    ))}
+                </div>)}
+
+        <h1 className="text-3xl font-bold mb-4 mt-4">Past Classes</h1>
+            {loading ? (<Spinners loading={loading} />) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {classes.filter(item => item.date.toDate() <= new Date()).map((classItem) => (
+                        <div key={classItem.id} className="bg-gray-200 p-4 mb-2 rounded-md shadow-md">
+                            <p><strong>Date:</strong> {classItem.date.toDate().toDateString()}</p>
+                            <p><strong>Time:</strong> {classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})}</p>
+                            <p><strong>Instructor:</strong> {classItem.instructor}</p>
+                            <p><strong>Location:</strong> {classItem.location}</p>
+                            <p><strong>Rider:</strong> {classItem.rider}</p>
+                            <p><strong>Bike Number:</strong> {classItem.bike}</p>
+                            <p><strong>Notes:</strong> {classItem.notes}</p>
+                            <div className="flex justify-end mt-2">
+                                <button onClick={() => onDeleteClick(classItem.id)} className="bg-red-400 hover:bg-red-600 text-black font-bold py-2 px-4 rounded">Delete</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>)}
     </div>
   )
 }

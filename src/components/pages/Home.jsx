@@ -7,7 +7,11 @@ const Home = () => {
     <>
     <Hero />
     <Features />
-    {/*<GetStarted to="/schedule">Get Started!</GetStarted>*/}
+    <p className="ml-4 mb-4">Help to improve SpinShare by giving feedback{' '}  
+      <a href="https://forms.gle/tSN6GMSWoa5RPDYK7" className="text-blue-600 hover:underline">
+          here
+      </a>
+    </p>
     </>
   );
 };
