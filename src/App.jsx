@@ -10,6 +10,7 @@ import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
 import Revo from "./components/Revo";
+import Ally from "./components/Ally";
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -104,6 +105,7 @@ const App = () => {
           <Route path="/mail/:userId" element={<Mail />} />
           <Route path="/absolute/:location" element={<Absolute />} />
           <Route path="/revo/:location" element={<Revo />} />
+          <Route path="/ally" element={<Ally />} />
           <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

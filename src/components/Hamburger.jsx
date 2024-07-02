@@ -26,6 +26,7 @@ const Hamburger = () => {
         <div className="flex flex-col items-start p-2" onClick={toggleMenu}>
             <NavLink to="/" className="text-white rounded-md px-2 py-2">Home</NavLink>
             <NavLink to="/absolute/STV" className="text-white rounded-md px-2 py-2">Absolute</NavLink>
+            <NavLink to="/ally" className="text-white rounded-md px-2 py-2">Ally</NavLink>
             <NavLink to="/revo/TP" className="text-white rounded-md px-2 py-2">Revo</NavLink>
             <CurrentUser auth={auth} >
                 {(user) => (
