@@ -1,6 +1,5 @@
 import Hero from "../Hero";
 import Features from "../Features";
-import GetStarted from "../GetStarted";
 
 const Home = () => {
   return (

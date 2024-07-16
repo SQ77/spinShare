@@ -14,8 +14,8 @@ const Features = () => {
                       <p className="text-black">Send and manage friend requests. Friends will be able to see each other's schedule.</p>
                   </div>
                   <div className="bg-white border-2 shadow-lg rounded-lg p-8 ml-5 mr-5 md:ml-0 hover:bg-gray-200">
-                      <h3 className="text-xl font-semibold mb-4">Absolute Schedule Forecast</h3>
-                      <p className="text-black">Access the schedule of upcoming classes at Absolute and easily add them to your own schedule.</p>
+                      <h3 className="text-xl font-semibold mb-4">Absolute & Revolution Schedule Forecast</h3>
+                      <p className="text-black">Access the schedule of upcoming classes at Absolute & Revolution and easily add them to your own schedule.</p>
                   </div>
               </div>
           </div>

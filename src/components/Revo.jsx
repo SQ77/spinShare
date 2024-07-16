@@ -90,7 +90,7 @@ const Revo = () => {
                                 time: classDetails.time}});
     }
 
-    const days = ["THU", "FRI", "SAT", "SUN", "MON", "TUE", "WED"];
+    const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     
     return (
         <>

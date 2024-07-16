@@ -77,7 +77,7 @@ const Ally = () => {
                                 time: classDetails.time}});
     }
 
-    const days = ["TUE", "WED", "THU", "FRI", "SAT", "SUN", "MON"];
+    const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     
     return (
         <>
