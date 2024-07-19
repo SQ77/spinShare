@@ -61,7 +61,7 @@ const Auth = () => {
         {(user) => (
           <>
           {!user && (
-            <button onClick={signInWithGoogle} className="text-white bg-red-500 hover:bg-red-700 rounded-md mt-4 md:mt-0 px-3 py-2">Sign In With Google</button>
+            <button onClick={signInWithGoogle} className="text-white bg-red-700 hover:bg-red-800 rounded-md mt-4 md:mt-0 px-3 py-2">Sign In With Google</button>
           )}
           {user && (
             <>
@@ -71,7 +71,7 @@ const Auth = () => {
                   {unreadMessages && <RiErrorWarningFill className="l-1 w-5 h-5"/>}
                 </div>
               </NavLink>
-              <button onClick={signout} className="text-white bg-red-500 hover:bg-red-700 rounded-md mt-5 md:mt-0 px-3 py-2">Sign Out</button>
+              <button onClick={signout} className="text-white bg-red-700 hover:bg-red-800 rounded-md mt-5 md:mt-0 px-3 py-2">Sign Out</button>
             </>
           )}
         </>)}

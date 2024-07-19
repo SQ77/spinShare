@@ -30,7 +30,6 @@ const Profile = () => {
                 </div>
                 <div className="flex items-center justify-center mt-4">
                     <p className="text-xl font-semibold">{user?.displayName}</p>
-                    {/*<p className="text-black">{user?.email}</p>*/}
                 </div>
                 <div className="mt-6">
                     <h2 className="text-lg font-semibold">Friends</h2>

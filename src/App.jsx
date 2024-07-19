@@ -38,14 +38,6 @@ const App = () => {
       notes: newClass.notes === undefined ? "None" : newClass.notes,
       userId: auth?.currentUser?.uid
     })
-    {/*
-    const res = await fetch('/api/spinClasses', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newClass)
-    }); */}
     return;
   };
 
@@ -53,10 +45,6 @@ const App = () => {
   const deleteClass = async (id) => {
     const classDoc = doc(db, "classes", id)
     const res = await deleteDoc(classDoc);
-    {/*
-    const res = await fetch(`/api/spinClasses/${id}`, {
-      method: 'DELETE',
-    }); */}
     window.location.reload();
     return; 
   }
@@ -79,14 +67,6 @@ const App = () => {
       notes: updatedClass.notes,
       userId: auth?.currentUser?.uid
     });
-    {/*
-    const res = await fetch(`/api/spinClasses/${updatedClass.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedClass)
-    }); */}
     return;
   }
 

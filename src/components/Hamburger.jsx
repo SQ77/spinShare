@@ -15,6 +15,8 @@ const Hamburger = () => {
     <div className="relative">
       {/* Hamburger button */}
       <button 
+        id="menu"
+        aria-label="menu"
         className="md:hidden p-2 focus:outline-none" 
         onClick={toggleMenu}
       >
