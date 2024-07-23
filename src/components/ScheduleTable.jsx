@@ -83,11 +83,11 @@ const ScheduleTable = () => {
             </div>
         ));
         return (
-            <th key={index} className={'border-gray-400 border-l border-r px-4 py-2'}>
+            <th key={index} className="border-gray-400 border-l border-r px-4 py-2">
                 <div>
                     {`${heading.day} ${heading.date.getDate()}.${heading.date.getMonth() + 1}`}
                 </div>
-                <div className='py-5' style={{ fontWeight: 'normal' }}>
+                <div className="py-5 font-normal">
                     {classesList}
                 </div>
             </th>
@@ -108,11 +108,40 @@ const ScheduleTable = () => {
                 Next Week
             </button>
         </div>
-        <div className="w-full overflow-x-auto px-8 py-8">
+        <div className="hidden md:block w-full overflow-x-auto px-8 py-8">
             <table className="table-auto w-full">
                 {headingsWithClasses}
             </table>
         </div>
+
+        <div className="md:hidden container mx-auto px-4">
+            <div className="inline-block mt-4 mb-5 rounded-lg">
+                <table className="min-w-full leading-normal">
+                <tbody>
+                    {tableHeadings.map((heading, index) => 
+                        <tr key={index}>
+                        <th
+                            className="px-2 py-4 border-gray-400 border-t border-b text-left text-s font-bold uppercase"
+                        >
+                            {`${heading.day} ${heading.date.getDate()}.${heading.date.getMonth() + 1}`}
+                        </th>
+                        <td className="px-4 py-2 border-gray-400 border-t border-b w-full">
+                            {(classesByDate[heading.date.toDateString()] || [])
+                            .map((classItem, classIndex) => (
+                                <div key={classIndex} className="py-2 w-40"> 
+                                    <Spin time={classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})} 
+                                        instructor={classItem.instructor} 
+                                        location={classItem.location} 
+                                        userId={classItem.userId}/>
+                                </div>))}
+                        </td>
+                        </tr>
+                    )} 
+                </tbody>
+                </table>
+            </div>
+        </div>
+        
         </>
     );
 }
