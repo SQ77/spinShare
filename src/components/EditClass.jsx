@@ -115,6 +115,7 @@ const EditClass = ({updateClassSubmit}) => {
                         <option value="Rev-Bugis">Rev-Bugis</option>
                         <option value="Rev-Suntec">Rev-Suntec</option>
                         <option value="XYCO">XYCO</option>
+                        <option value="XYCO">ELEV8</option>
                     </select>
                 </div>
                 <div className="mb-4">
