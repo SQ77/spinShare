@@ -84,12 +84,11 @@ const App = () => {
           <Route path="/add-friends/:userId" element={<AddFriends />} />
           <Route path="/mail/:userId" element={<Mail />} />
           <Route path="/absolute/:location" element={<Absolute />} />
-          <Route path="/revo/:location" element={<Revo />} />
+          {/*<Route path="/revo/:location" element={<Revo />} />*/}
           <Route path="/ally" element={<Ally />} />
           <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-     
     </>
   );
 };
