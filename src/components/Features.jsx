@@ -15,7 +15,7 @@ const Features = () => {
                   </div>
                   <div className="bg-white border-2 shadow-lg rounded-lg p-8 ml-5 mr-5 md:ml-0 hover:bg-gray-200">
                       <h3 className="text-xl font-semibold mb-4">Absolute & Revolution Schedule Forecast</h3>
-                      <p className="text-black">Access the schedule of upcoming classes at Absolute & Revolution and easily add them to your own schedule.</p>
+                      <p className="text-black">Access the schedule of upcoming classes at Absolute & Ally and easily add them to your own schedule.</p>
                   </div>
               </div>
           </div>
