@@ -63,6 +63,7 @@
 <br />
 
 SpinShare is a schedule sharing web app for users to create, edit and share their spin schedule.
+Inspired by the hassle of individually asking friends for their schedules, SpinShare simplifies the process by providing a centralized platform where users can share and view each other's spin class times, making coordination and planning much more convenient. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -96,12 +97,11 @@ SpinShare is a schedule sharing web app for users to create, edit and share thei
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+### Add Class
+
+This feature offers a clean and intuitive interface where users can easily input details like the class name, instructor, date, time, and location. This user-friendly design ensures that adding a class is a hassle-free experience.
+
 <img src="src/assets/images/spinShare_addClass.png" alt="SpinShare Add Class" width="300" height="400">
-
-<br />
-
-Add classes to your schedule easily.
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -116,7 +116,7 @@ Add classes to your schedule easily.
     - [x] Send friend requests
     - [x] Add and remove friends
     - [x] View friends' classes in your schedule
-- [x] Absolute and Ally schedules
+- [x] Absolute and Ally schedules (updated weekly)
 
 
 See the [open issues](https://github.com/SQ77/spinShare/issues) for a full list of proposed features (and known issues).
