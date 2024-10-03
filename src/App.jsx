@@ -19,6 +19,7 @@ import { db, auth } from './FirebaseConfig';
 import { collection, addDoc, deleteDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
 import ChatButton from './components/ChatButton';  
 import ChatWindow from './components/ChatWindow';
+import Chat from './components/Chat';
 
 const App = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -89,11 +90,10 @@ const App = () => {
         <Route path="/mail/:userId" element={<Mail />} />
         <Route path="/absolute/:location" element={<Absolute />} />
         <Route path="/ally" element={<Ally />} />
+        <Route path="/chat" element={<Chat />} /> {/* New route for the Chat component */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-      <ChatButton onClick={handleChatButtonClick} />
-      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </>
   );
 };
