@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { createWorker } from 'tesseract.js';
 import { toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ImageUploader = ({ addClassAuto }) => {
+  const navigate = useNavigate();
+  const {userId} = useParams();
   const [image, setImage] = useState(null);
   const [ocrResult, setOcrResult] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,6 +33,10 @@ const ImageUploader = ({ addClassAuto }) => {
     // Set the recognized text
     setOcrResult(text);
     setLoading(false);
+    if (!text.trim()) {
+      toast.error("No classes detected in the image!");
+      return;
+    }
     extractDetails(text);
 
     // Terminate the worker
@@ -166,8 +173,14 @@ const ImageUploader = ({ addClassAuto }) => {
         return null; // Regex doesn't match any case
     }).filter(Boolean); // Filter out null entries
 
+    if (dataFields.length === 0) {
+      toast.error("No classes detected in the image!");
+      return;
+    }
+    
     dataFields.forEach(newClass => addClassAuto(newClass));
     toast.success("Classes added successfully");
+    return navigate(`/classes/${userId}`);
   }
   
 
@@ -183,12 +196,6 @@ const ImageUploader = ({ addClassAuto }) => {
       >
         {loading ? 'Processing...' : 'Submit'}
       </button>
-
-      {ocrResult && (
-        <div className="mt-2 mb-4 bg-gray-100 p-4 rounded">
-          <h2 className="text-xl font-semibold">Your classes have been added!</h2>
-        </div>
-      )}
 
       {image && <img src={image} alt="Schedule" className="w-auto h-auto mb-4 border-2" />}
 
