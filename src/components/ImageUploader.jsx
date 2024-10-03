@@ -3,9 +3,8 @@ import { createWorker } from 'tesseract.js';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const ImageUploader = ({ addClassAuto }) => {
+const ImageUploader = ({ addClassAuto, userId }) => {
   const navigate = useNavigate();
-  const {userId} = useParams();
   const [image, setImage] = useState(null);
   const [ocrResult, setOcrResult] = useState('');
   const [loading, setLoading] = useState(false);

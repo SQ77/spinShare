@@ -27,8 +27,6 @@ const App = () => {
   const addClass = async (newClass) => {
     const dateString = newClass.date;
     const timeString = newClass.time;
-    console.log(dateString);
-    console.log(timeString);
     const [year, month, day] = dateString.split("-").map(Number);
     const [hours, minutes] = timeString.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
@@ -82,7 +80,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/schedule/:userId" element={<ScheduleTable />} />
           <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
-          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass}/>} />
+          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass} />} />
           <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/add-friends/:userId" element={<AddFriends />} />
