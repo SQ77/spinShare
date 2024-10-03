@@ -17,9 +17,6 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { db, auth } from './FirebaseConfig';
 import { collection, addDoc, deleteDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
-import ChatButton from './components/ChatButton';  
-import ChatWindow from './components/ChatWindow';
-import Chat from './components/Chat';
 
 const App = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -68,12 +65,6 @@ const App = () => {
     });
   };
 
-  const handleChatButtonClick = () => {
-    setIsChatOpen(prevState => {
-      console.log("Chat button clicked. Current state:", prevState); // Log the state
-      return !prevState; // Toggle state
-    });
-  };
 
   return (
     <>
