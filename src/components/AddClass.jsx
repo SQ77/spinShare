@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ImageUploader from './ImageUploader';
 
 const AddClass = ({ addClassSubmit }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname;
     const userId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const [isManual, setIsManual] = useState(false);
+
+    const handleToggle = () => {
+        setIsManual(prevState => !prevState);
+    };
 
     const rawDate = location.state?.date;
     let formattedDate = '';
@@ -82,63 +88,78 @@ const AddClass = ({ addClassSubmit }) => {
     return (
         <div className="container mx-auto mt-8 px-8 md:px-1 py-5">
             <h1 className="text-3xl font-bold mb-4 text-center">Add Class</h1>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-                <div className="mb-4">
-                    <label htmlFor="date" className="block text-sm font-semibold mb-1">Date</label>
-                    <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="time" className="block text-sm font-semibold mb-1">Time</label>
-                    <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="instructor" className="block text-sm font-semibold mb-1">Instructor</label>
-                    <input type="text" maxLength={25} id="instructor" name="instructor" value={formData.instructor} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="location" className="block text-sm font-semibold mb-1">Location</label>
-                    <select
-                        id="location"
-                        name="location"
-                        className="border border-gray-400 px-4 py-2 rounded-md w-full"
-                        value={selectedOption}
-                        onChange={handleSelectChange}
-                        required
-                    >
-                        <option value="">Select...</option>
-                        <option value="Absolute-STV">Absolute-STV</option>
-                        <option value="Absolute-CTP">Absolute-CTP</option>
-                        <option value="Absolute-MW">Absolute-MW</option>
-                        <option value="Absolute-RP">Absolute-RP</option>
-                        <option value="Absolute-KTG">Absolute-KTG</option>
-                        <option value="Ally">Ally</option>
-                        <option value="Ground Zero">Ground Zero</option>
-                        <option value="Rev-Orchard">Rev-Orchard</option>
-                        <option value="Rev-TP">Rev-TP</option>
-                        <option value="Rev-Bugis">Rev-Bugis</option>
-                        <option value="Rev-Suntec">Rev-Suntec</option>
-                        <option value="XYCO">XYCO</option>
-                        <option value="XYCO">ELEV8</option>
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="rider" className="block text-sm font-semibold mb-1">Rider</label>
-                    <input type="text" maxLength={25} id="rider" name="rider" value={formData.rider} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="bike" className="block text-sm font-semibold mb-1">Bike Number</label>
-                    <input type="number" min="1" max="60" id="bike" name="bike" value={formData.bike} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="notes" className="block text-sm font-semibold mb-1">Notes</label>
-                    <textarea maxLength={50} id="notes" name="notes" value={formData.notes} 
-                        onChange={handleChange} rows="4" 
-                        className="border border-gray-400 px-4 py-2 rounded-md w-full"
-                        placeholder='Duration/type of class, etc'
-                    ></textarea>
-                </div>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Add Class</button>
-            </form>
+            <label className="justify-center flex items-center mb-4 cursor-pointer">
+                <input
+                    type="checkbox"
+                    checked={isManual}
+                    onChange={handleToggle}
+                    className="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-gray-700">
+                    {isManual ? 'Switch to Upload Image' : 'Switch to Manual Adding'}
+                </span>
+            </label>
+            {isManual ? (
+                <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+                    <div className="mb-4">
+                        <label htmlFor="date" className="block text-sm font-semibold mb-1">Date</label>
+                        <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="time" className="block text-sm font-semibold mb-1">Time</label>
+                        <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="instructor" className="block text-sm font-semibold mb-1">Instructor</label>
+                        <input type="text" maxLength={25} id="instructor" name="instructor" value={formData.instructor} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="location" className="block text-sm font-semibold mb-1">Location</label>
+                        <select
+                            id="location"
+                            name="location"
+                            className="border border-gray-400 px-4 py-2 rounded-md w-full"
+                            value={selectedOption}
+                            onChange={handleSelectChange}
+                            required
+                        >
+                            <option value="">Select...</option>
+                            <option value="Absolute-STV">Absolute-STV</option>
+                            <option value="Absolute-CTP">Absolute-CTP</option>
+                            <option value="Absolute-MW">Absolute-MW</option>
+                            <option value="Absolute-RP">Absolute-RP</option>
+                            <option value="Absolute-KTG">Absolute-KTG</option>
+                            <option value="Ally">Ally</option>
+                            <option value="Ground Zero">Ground Zero</option>
+                            <option value="Rev-Orchard">Rev-Orchard</option>
+                            <option value="Rev-TP">Rev-TP</option>
+                            <option value="Rev-Bugis">Rev-Bugis</option>
+                            <option value="Rev-Suntec">Rev-Suntec</option>
+                            <option value="XYCO">XYCO</option>
+                            <option value="XYCO">ELEV8</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="rider" className="block text-sm font-semibold mb-1">Rider</label>
+                        <input type="text" maxLength={25} id="rider" name="rider" value={formData.rider} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="bike" className="block text-sm font-semibold mb-1">Bike Number</label>
+                        <input type="number" min="1" max="60" id="bike" name="bike" value={formData.bike} onChange={handleChange} className="border border-gray-400 px-4 py-2 rounded-md w-full" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="notes" className="block text-sm font-semibold mb-1">Notes</label>
+                        <textarea maxLength={50} id="notes" name="notes" value={formData.notes} 
+                            onChange={handleChange} rows="4" 
+                            className="border border-gray-400 px-4 py-2 rounded-md w-full"
+                            placeholder='Duration/type of class, etc'
+                        ></textarea>
+                    </div>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Add Class</button>
+                </form>
+
+            ) : (<ImageUploader />)}
+            
         </div>
     );
 }

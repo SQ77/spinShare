@@ -9,12 +9,14 @@ const ImageUploader = ({ addClassAuto }) => {
   const [image, setImage] = useState(null);
   const [ocrResult, setOcrResult] = useState('');
   const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   // Handle image file change
   const handleChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(URL.createObjectURL(file));
+      setButtonDisabled(false);
     }
   };
 
@@ -186,19 +188,33 @@ const ImageUploader = ({ addClassAuto }) => {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Upload Class Booking Screenshot</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Upload Class Booking Screenshot</h1>
       
-      <input type="file" accept="image/*" onChange={handleChange} className="mb-4" />
-      
-      <button
-        onClick={handleImageAnalysis}
-        className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded mb-4"
-      >
-        {loading ? 'Processing...' : 'Submit'}
-      </button>
+      <div className="flex flex-col items-center mb-4">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
+          className="mb-4"
+        />
 
-      {image && <img src={image} alt="Schedule" className="w-auto h-auto mb-4 border-2" />}
+        {!buttonDisabled && <button
+          onClick={handleImageAnalysis}
+          className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+        >
+          {loading ? 'Processing...' : 'Submit'}
+        </button>}
 
+        {buttonDisabled && <button disabled className="flex items-center border border-gray-500 bg-white text-gray-500 font-semibold py-2 px-4 rounded">
+            Submit
+        </button>}
+      </div>
+
+      {image && (
+        <div className="flex justify-center mb-4">
+          <img src={image} alt="Schedule" className="w-auto h-auto border-2" />
+        </div>
+      )}
     </div>
   );
 };
