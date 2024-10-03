@@ -11,12 +11,14 @@ import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
 import Revo from "./components/Revo";
 import Ally from "./components/Ally";
+import ImageUploader from "./components/ImageUploader";
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { db, auth } from './FirebaseConfig';
 import { collection, addDoc, deleteDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
+
 
 const App = () => {
   const classesCollectionRef = collection(db, "classes");
@@ -25,6 +27,8 @@ const App = () => {
   const addClass = async (newClass) => {
     const dateString = newClass.date;
     const timeString = newClass.time;
+    console.log(dateString);
+    console.log(timeString);
     const [year, month, day] = dateString.split("-").map(Number);
     const [hours, minutes] = timeString.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
@@ -86,6 +90,7 @@ const App = () => {
           <Route path="/absolute/:location" element={<Absolute />} />
           {/*<Route path="/revo/:location" element={<Revo />} />*/}
           <Route path="/ally" element={<Ally />} />
+          <Route path="/upload/:userId" element={<ImageUploader addClassAuto={addClass}/>} />
           <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

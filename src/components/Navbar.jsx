@@ -40,6 +40,7 @@ const Navbar = () => {
                   <CurrentUser auth={auth} >
                     {(user) => (
                       <>
+                        {user && <NavLink to={`/upload/${user?.uid}`} className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive(`/upload/${user?.uid}`) && 'bg-black'}`}>Upload</NavLink>}
                         {user && <NavLink to={`/schedule/${user?.uid}`} className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive(`/schedule/${user?.uid}`) && 'bg-black'}`}>Schedule</NavLink>}
                         {user && <NavLink to={`/classes/${user?.uid}`} className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive(`/classes/${user?.uid}`) && 'bg-black'}`}>My Classes</NavLink>}
                         {user && <NavLink to={`/add-class/${user?.uid}`} className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive(`/add-class/${user?.uid}`) && 'bg-black'}`}>Add Class</NavLink>}
