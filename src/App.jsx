@@ -1,4 +1,5 @@
-import Home from "./components/pages/Home"
+import React, { useState } from 'react';
+import Home from "./components/pages/Home";
 import ScheduleTable from "./components/ScheduleTable";
 import ClassList from "./components/pages/ClassList";
 import Navbar from "./components/Navbar";
@@ -9,8 +10,9 @@ import Profile from "./components/Profile";
 import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
-import Revo from "./components/Revo";
 import Ally from "./components/Ally";
+import ChatButton from './components/ChatButton';
+import ChatWindow from './components/ChatWindow';
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -19,9 +21,9 @@ import { db, auth } from './FirebaseConfig';
 import { collection, addDoc, deleteDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
 
 const App = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const classesCollectionRef = collection(db, "classes");
 
-  // Add new class
   const addClass = async (newClass) => {
     const dateString = newClass.date;
     const timeString = newClass.time;
@@ -29,7 +31,7 @@ const App = () => {
     const [hours, minutes] = timeString.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
 
-    const res = await addDoc(classesCollectionRef, {
+    await addDoc(classesCollectionRef, {
       date: Timestamp.fromDate(date),
       instructor: newClass.instructor,
       location: newClass.location,
@@ -37,19 +39,15 @@ const App = () => {
       bike: newClass.bike,
       notes: newClass.notes === undefined ? "None" : newClass.notes,
       userId: auth?.currentUser?.uid
-    })
-    return;
+    });
   };
 
-  // Delete class
   const deleteClass = async (id) => {
-    const classDoc = doc(db, "classes", id)
-    const res = await deleteDoc(classDoc);
+    const classDoc = doc(db, "classes", id);
+    await deleteDoc(classDoc);
     window.location.reload();
-    return; 
-  }
+  };
 
-  // Update class
   const updateClass = async (updatedClass) => {
     const dateString = updatedClass.date;
     const timeString = updatedClass.time;
@@ -58,7 +56,7 @@ const App = () => {
     const date = new Date(year, month - 1, day, hours, minutes);
 
     const classDoc = doc(db, "classes", updatedClass.id);
-    const res = await updateDoc(classDoc, {
+    await updateDoc(classDoc, {
       date: Timestamp.fromDate(date),
       instructor: updatedClass.instructor,
       location: updatedClass.location,
@@ -67,29 +65,38 @@ const App = () => {
       notes: updatedClass.notes,
       userId: auth?.currentUser?.uid
     });
-    return;
-  }
+  };
+
+  const handleChatButtonClick = () => {
+    setIsChatOpen(prevState => {
+      console.log("Chat button clicked. Current state:", prevState); // Log the state
+      return !prevState; // Toggle state
+    });
+  };
+
 
   return (
     <>
       <Navbar />
       <ToastContainer />
       <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/schedule/:userId" element={<ScheduleTable />} />
-          <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
-          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass}/>} />
-          <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route path="/add-friends/:userId" element={<AddFriends />} />
-          <Route path="/mail/:userId" element={<Mail />} />
-          <Route path="/absolute/:location" element={<Absolute />} />
-          {/*<Route path="/revo/:location" element={<Revo />} />*/}
-          <Route path="/ally" element={<Ally />} />
-          <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/schedule/:userId" element={<ScheduleTable />} />
+        <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
+        <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass}/>} />
+        <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/add-friends/:userId" element={<AddFriends />} />
+        <Route path="/mail/:userId" element={<Mail />} />
+        <Route path="/absolute/:location" element={<Absolute />} />
+        <Route path="/ally" element={<Ally />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
+      <ChatButton onClick={handleChatButtonClick} />
+      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <Footer />
     </>
   );
 };
+
 export default App;
