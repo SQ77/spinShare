@@ -32,11 +32,22 @@ const Navbar = () => {
               <div className="ml-auto">
                 <div className="hidden md:flex md:space-x-2">
                   <NavLink to="/" className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive('/') && 'bg-black'}`}>Home</NavLink>
-                  <NavLink to="/absolute/STV" 
-                    className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/absolute/STV') || isActive('/absolute/CTP') || isActive('/absolute/MW') || isActive('/absolute/KTG')) && 'bg-black'}`}>Absolute</NavLink>
-                  <NavLink to="/ally" className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive('/ally') && 'bg-black'}`}>Ally</NavLink>
-                  {/*<NavLink to="/revo/TP" 
-                    className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/revo/TP') || isActive('/revo/Orchard') || isActive('/revo/Bugis') || isActive('/revo/Suntec')) && 'bg-black'}`}>Revo</NavLink>*/}
+                  {/* Studios Dropdown */}
+                  <div className="relative group">
+                  <button className="text-white hover:bg-gray-900 rounded-md px-3 py-2">
+                    Studios
+                  </button>
+                  <div className="absolute left-0 hidden group-hover:block bg-white shadow-lg rounded-md z-10 mt-0 transition duration-150 ease-in-out">
+                    <NavLink to="/absolute/STV" 
+                      className={`block text-gray-800 hover:bg-indigo-600 hover:text-white rounded-md px-4 py-2 transition duration-150 ease-in-out ${isActive('/absolute/STV') && 'bg-black text-white'}`}>
+                      Absolute
+                    </NavLink>
+                    <NavLink to="/ally" 
+                      className={`block text-gray-800 hover:bg-indigo-600 hover:text-white rounded-md px-4 py-2 transition duration-150 ease-in-out ${isActive('/ally') && 'bg-black text-white'}`}>
+                      Ally
+                    </NavLink>
+                    </div>
+                  </div>
                   <CurrentUser auth={auth} >
                     {(user) => (
                       <>
