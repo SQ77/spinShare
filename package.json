@@ -11,6 +11,7 @@
     "server": "json-server --watch src/SpinClasses.json --port 5000"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.10",
     "dayjs": "^1.11.11",
     "firebase": "^10.11.1",
     "react": "^18.2.0",

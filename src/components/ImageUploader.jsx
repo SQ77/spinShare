@@ -33,6 +33,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
 
     // Set the recognized text
     setOcrResult(text);
+    console.log(text); // Testing
     setLoading(false);
     if (!text.trim()) {
       toast.error("No classes detected in the image!");
@@ -79,12 +80,15 @@ const ImageUploader = ({ addClassAuto, userId }) => {
         return entry
         .replace(/Rhythm/g, '')     
         .replace(/Cycling/g, '')    
-        .replace(/Guest of/g, '')   
+        .replace(/Guest of/g, '')
+        .replace(/Guest/g, '')
+        .replace(/Rate/g, '')     
         .replace(/Enrolled/g, '')   
         .replace(/\s+/g, ' ')       // Replace multiple spaces with a single space
         .trim();                    
     });
-  
+    
+    console.log(cleanedEntries); // Testing
     processClasses(cleanedEntries);
   };
 
@@ -179,9 +183,10 @@ const ImageUploader = ({ addClassAuto, userId }) => {
       return;
     }
     
-    dataFields.forEach(newClass => addClassAuto(newClass));
+    //dataFields.forEach(newClass => addClassAuto(newClass));
+    console.log(dataFields);
     toast.success("Classes added successfully");
-    return navigate(`/classes/${userId}`);
+    //return navigate(`/classes/${userId}`);
   }
   
 
