@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-indigo-700 border-b border-indigo-500">
+    <nav className="bg-blue-800 border-b border-blue-600">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="flex h-20 md:items-center md:justify-between">
             <div
