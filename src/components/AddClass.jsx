@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Switch } from "@material-tailwind/react";
 import ImageUploader from './ImageUploader';
 
 const AddClass = ({ addClassSubmit }) => {
@@ -89,15 +90,13 @@ const AddClass = ({ addClassSubmit }) => {
         <div className="container mx-auto mt-8 px-8 md:px-1 py-5">
             <h1 className="text-3xl font-bold mb-4 text-center">Add Class</h1>
             <label className="justify-center flex items-center mb-4 cursor-pointer">
-                <input
-                    type="checkbox"
-                    checked={isManual}
-                    onChange={handleToggle}
-                    className="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded"
-                />
-                <span className="ml-2 text-gray-700">
-                    {isManual ? 'Switch to Upload Image' : 'Switch to Manual Adding'}
-                </span>
+                <label className={`mr-2 ${isManual ? 'text-black font-bold' : 'text-gray-500'}`}> 
+                    Manual Adding 
+                </label>
+                <Switch defaultChecked onChange={handleToggle}/>
+                <label className={`ml-2 ${isManual ? 'text-gray-500' : 'text-black font-bold'}`}>
+                    Upload Image
+                </label>
             </label>
             {isManual ? (
                 <form onSubmit={handleSubmit} className="max-w-lg mx-auto">

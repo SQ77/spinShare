@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { createWorker } from 'tesseract.js';
+import Tesseract, { createWorker } from 'tesseract.js';
 import { toast } from 'react-toastify';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ImageUploader = ({ addClassAuto, userId }) => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     // Recognize the text
     const worker = await createWorker('eng');
     await worker.setParameters({
-      tessedit_char_whitelist: '0123456789:/-&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ',
+      tessedit_char_whitelist: '0123456789:/+&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ',
     });
     const { data: { text } } = await worker.recognize(image);
 
@@ -41,9 +41,21 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     }
     extractDetails(text);
 
-    // Terminate the worker
     await worker.terminate();
   };
+
+  // Removes the last word if it is not an instructor name
+  const removeNonInstructorName = (str) => {
+    str = str.trim();
+    const words = str.split(' ');
+
+    // last word should be "cycling", else remove it
+    if (words.length > 0 && words[words.length - 1].toLowerCase() !== 'cycling') {
+        words.pop();
+    }
+
+    return words.join(' ');
+}
 
   // Organises output from Tesseract into individual classes
   const extractDetails = (text) => {
@@ -76,7 +88,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     }
 
     // Process the entries to remove unwanted words
-    const cleanedEntries = formattedEntries.map(entry => {
+    const cleanedEntries = formattedEntries.map(removeNonInstructorName).map(entry => {
         return entry
         .replace(/Rhythm/g, '')     
         .replace(/Cycling/g, '')    
@@ -88,7 +100,6 @@ const ImageUploader = ({ addClassAuto, userId }) => {
         .trim();                    
     });
     
-    console.log(cleanedEntries); // Testing
     processClasses(cleanedEntries);
   };
 
@@ -125,7 +136,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
   const processClasses = (entries) => {
     const dataFields = entries.map(entry => {
         // Standard format
-        const perfectFormatRegex = /^(.*?)\s*-\s*(\d+)\s+CYCLE\s+(-?[\w\s+:]+)\s+(\w+)\s+(\w+)\s+(\d{1,2}:\d{2} (?:AM|PM))\s*(.*)$/;
+        const perfectFormatRegex = /^(.*?)\s*-*\s*(\d+)\s+CYCLE\s+(-?[\w\s+:]+)\s+(\w+)\s+(\w+)\s+-*(\d{1,2}:\d{2} (?:AM|PM))\s*(.*)$/;
         const perfectMatch = entry.match(perfectFormatRegex);
         
         if (perfectMatch) {
@@ -134,15 +145,15 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 bike: perfectMatch[2].trim(),
                 notes: "CYCLE " + perfectMatch[3].trim(),
                 instructor: perfectMatch[4].trim(),
-                location: perfectMatch[5].trim(),
+                location: "Absolute-" + perfectMatch[5].trim(),
                 time: formatTime(perfectMatch[6].trim()),
                 rider: '',
             };
         }
 
         // Handle edge case: two instructors, long class name
-        // "Thu 30/5/24 - 1 CYCLE Duo 45: Gen X Oldies Jocelyn & MW 6:30 PM VS Gen Z Oldies Jelina"
-        const edgeCase1Regex = /^(.*?)(?=-)- (\d{1,2}) (.*)\s(\w+)\s& (.*?)(?=\d)([\d:]+\s?[APM]*)\s(.*)\s(\w+)$/;
+        // "Thu 30/5/24 1 CYCLE Duo 45: Gen X Oldies Jocelyn & MW 6:30 PM VS Gen Z Oldies Jelina"
+        const edgeCase1Regex = /^(.*?) (\d{1,2}) (.*)\s(\w+)\s& (.*?)(?=\d)([\d:]+\s?[APM]*)\s(.*)\s(\w+)$/;
         const edgeCase1Match = entry.match(edgeCase1Regex);
         if (edgeCase1Match) {
             return {
@@ -150,15 +161,15 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 bike: edgeCase1Match[2].trim(),
                 notes: edgeCase1Match[3].trim() + ' ' + edgeCase1Match[7].trim(), 
                 instructor: edgeCase1Match[4].trim() + ' & ' + edgeCase1Match[8].trim(),     
-                location: edgeCase1Match[5].trim(),       
+                location: "Absolute-" + edgeCase1Match[5].trim(),       
                 time: formatTime(edgeCase1Match[6].trim()),
                 rider: '',
             };
         }
 
         // Handle edge case: one instructor, long class name
-        // "Thu 30/5/24 - 1 CYCLE Theme 45: Gen X Oldies Jocelyn MW 6:30 PM VS Gen Z Oldies"
-        const edgeCase2Regex = /^(.*?)(?=-)- (\d{1,2}) (.*)\s(\w+)\s([\d:]+\s?[APM]*)\s(.*)$/;        
+        // "Thu 30/5/24 1 CYCLE Theme 45: Gen X Oldies Jocelyn MW 6:30 PM VS Gen Z Oldies"
+        const edgeCase2Regex = /^(.*?) (\d{1,2}) (.*)\s(\w+)\s([\d:]+\s?[APM]*)\s(.*)$/;        
         const edgeCase2Match = entry.match(edgeCase2Regex);
         if (edgeCase2Match) {
             const classNameAndInst = edgeCase2Match[3].trim().split(' ');
@@ -169,7 +180,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 bike: edgeCase2Match[2].trim(),
                 notes: classNamePart + ' ' + edgeCase2Match[6].trim(),
                 instructor: instName,   
-                location: edgeCase2Match[4].trim(), 
+                location: "Absolute-" + edgeCase2Match[4].trim(), 
                 time: formatTime(edgeCase2Match[5].trim()),
                 rider: '',
             };
@@ -183,10 +194,9 @@ const ImageUploader = ({ addClassAuto, userId }) => {
       return;
     }
     
-    //dataFields.forEach(newClass => addClassAuto(newClass));
-    console.log(dataFields);
+    dataFields.forEach(newClass => addClassAuto(newClass));
     toast.success("Classes added successfully");
-    //return navigate(`/classes/${userId}`);
+    return navigate(`/classes/${userId}`);
   }
   
 
