@@ -90,9 +90,9 @@ const MyClasses = ({deleteClass}) => {
                             <p><strong>Bike Number:</strong> {classItem.bike}</p>
                             <p><strong>Notes:</strong> {classItem.notes}</p>
                             <div className="flex justify-end mt-2">
-                            <button onClick={() => togglePopup(classItem)} className="bg-green-400 hover:bg-green-600 text-black font-bold py-2 px-4 rounded">Invite</button>
+                            <button onClick={() => togglePopup(classItem)} className="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-4 mr-1 rounded">Invite</button>
                                 <div className="flex">
-                                    <NavLink to={`/edit-class/${classItem.id}/${userId}`} className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
+                                    <NavLink to={`/edit-class/${classItem.id}/${userId}`} className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 mr-1 rounded">
                                         Edit
                                     </NavLink>
                                 </div>
