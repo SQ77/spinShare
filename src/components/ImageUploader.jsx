@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Tesseract, { createWorker } from 'tesseract.js';
+import { createWorker } from 'tesseract.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,13 +27,14 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     // Recognize the text
     const worker = await createWorker('eng');
     await worker.setParameters({
-      tessedit_char_whitelist: '0123456789:/+&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ',
+      tessedit_char_whitelist: '0123456789:/&+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ',
     });
     const { data: { text } } = await worker.recognize(image);
 
     // Set the recognized text
     setOcrResult(text);
-    console.log(text); // Testing
+    // console.log(text); // Testing
+    
     setLoading(false);
     if (!text.trim()) {
       toast.error("No classes detected in the image!");
@@ -50,7 +51,10 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     const words = str.split(' ');
 
     // last word should be "cycling", else remove it
-    if (words.length > 0 && words[words.length - 1].toLowerCase() !== 'cycling') {
+    if (words.length > 0 
+          && words[words.length - 1].toLowerCase() !== 'cycling' 
+          && words[words.length - 1] !== "AM"
+          && words[words.length - 1] !== "PM") {
         words.pop();
     }
 
@@ -77,7 +81,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
         }
         // Start a new entry for the class
         currentEntry = trimmedLine;
-      } else if (trimmedLine.match(/\d{1,2}:\d{2} (?:AM|PM)/)) {
+      } else if (trimmedLine.match(/-*\d{1,2}:\d{2}\s*(?:AM|PM)/) || trimmedLine.match(/\d{1,2}\/\d{1,2}\/\d{1,2}/)) {
         currentEntry += ` ${trimmedLine}`;
       }
     });
@@ -86,6 +90,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     if (currentEntry) {
       formattedEntries.push(currentEntry.trim());
     }
+    // console.log(formattedEntries); // Testing
 
     // Process the entries to remove unwanted words
     const cleanedEntries = formattedEntries.map(removeNonInstructorName).map(entry => {
@@ -99,7 +104,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
         .replace(/\s+/g, ' ')       // Replace multiple spaces with a single space
         .trim();                    
     });
-    
+    // console.log(cleanedEntries); // Testing
     processClasses(cleanedEntries);
   };
 
@@ -120,6 +125,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
 
   // Changes the time format to prepare for storage
   const formatTime = (timeStr) => {
+    timeStr = timeStr.replace(/([0-9]{1,2}:[0-9]{2})(AM|PM)/, '$1 $2');
     // Create a new Date object using the time string
     const date = new Date(`1970-01-01 ${timeStr}`);
 
@@ -130,13 +136,42 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     // Return the formatted time in "HH:MM"
     return `${hours}:${minutes}`;
   }
+
+  const removeSiFromClass = (classNote) => {
+    return classNote.endsWith(" Si") ? classNote.split(" ").slice(0, -1).join(" ") : classNote;
+  }
   
 
   // Splits the cleaned data into the required fields
   const processClasses = (entries) => {
     const dataFields = entries.map(entry => {
+        const twoWordInstNames = ["Si Ling"];
+        let twoWordInst = null;
+        for (const name of twoWordInstNames) {
+          if (entry.includes(name)) {
+            twoWordInst = name;
+            break; 
+          }
+        }
+
+        // Handle edge case: date at the back
+        // "Sun 12 CYCLE Absolute 45 Rat STV 14/4/24 3:00 PM"
+        const edgeCase3Regex = /^(.*?) (\d{1,2}) ([\w\s+]*\d{2}) (\w*) (\w*) (\d{1,2}\/\d{1,2}\/\d{1,2}) (.*)/;
+        const edgeCase3Match = entry.match(edgeCase3Regex);
+        if (edgeCase3Match) {
+            return {
+                date: formatDate(edgeCase3Match[1].trim() + ' ' + edgeCase3Match[6].trim()),
+                bike: edgeCase3Match[2].trim(),
+                notes: edgeCase3Match[3].trim(),
+                instructor: twoWordInst ? twoWordInst : edgeCase3Match[4].trim(),     
+                location: "Absolute-" + edgeCase3Match[5].trim(),       
+                time: formatTime(edgeCase3Match[7].trim()),
+                rider: '',
+            };
+        }
+
         // Standard format
-        const perfectFormatRegex = /^(.*?)\s*-*\s*(\d+)\s+CYCLE\s+(-?[\w\s+:]+)\s+(\w+)\s+(\w+)\s+-*(\d{1,2}:\d{2} (?:AM|PM))\s*(.*)$/;
+        const perfectFormatRegex = /^(.*?)\s*-*\s*(\d+)\s+CYCLE\s+(-?[\w\s+:]+)\s+(\w+)\s+(\w+)\s+-*(\d{1,2}:\d{2}\s?(?:AM|PM))/;
         const perfectMatch = entry.match(perfectFormatRegex);
         
         if (perfectMatch) {
@@ -144,7 +179,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 date: formatDate(perfectMatch[1].trim()),
                 bike: perfectMatch[2].trim(),
                 notes: "CYCLE " + perfectMatch[3].trim(),
-                instructor: perfectMatch[4].trim(),
+                instructor: twoWordInst ? twoWordInst : perfectMatch[4].trim(),
                 location: "Absolute-" + perfectMatch[5].trim(),
                 time: formatTime(perfectMatch[6].trim()),
                 rider: '',
@@ -160,7 +195,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 date: formatDate(edgeCase1Match[1].trim()),
                 bike: edgeCase1Match[2].trim(),
                 notes: edgeCase1Match[3].trim() + ' ' + edgeCase1Match[7].trim(), 
-                instructor: edgeCase1Match[4].trim() + ' & ' + edgeCase1Match[8].trim(),     
+                instructor: twoWordInst ? twoWordInst : edgeCase1Match[4].trim() + ' & ' + edgeCase1Match[8].trim(),     
                 location: "Absolute-" + edgeCase1Match[5].trim(),       
                 time: formatTime(edgeCase1Match[6].trim()),
                 rider: '',
@@ -179,13 +214,14 @@ const ImageUploader = ({ addClassAuto, userId }) => {
                 date: formatDate(edgeCase2Match[1].trim()),
                 bike: edgeCase2Match[2].trim(),
                 notes: classNamePart + ' ' + edgeCase2Match[6].trim(),
-                instructor: instName,   
+                instructor: twoWordInst ? twoWordInst : instName,   
                 location: "Absolute-" + edgeCase2Match[4].trim(), 
                 time: formatTime(edgeCase2Match[5].trim()),
                 rider: '',
             };
         }
 
+        
         return null; // Regex doesn't match any case
     }).filter(Boolean); // Filter out null entries
 
@@ -193,9 +229,12 @@ const ImageUploader = ({ addClassAuto, userId }) => {
       toast.error("No classes detected in the image!");
       return;
     }
+
+    dataFields.forEach(newClass => {newClass.notes = removeSiFromClass(newClass.notes)});
     
     dataFields.forEach(newClass => addClassAuto(newClass));
-    toast.success("Classes added successfully");
+    // console.log(dataFields); // Testing
+    toast.success(dataFields.length + " classes added successfully");
     return navigate(`/classes/${userId}`);
   }
   
