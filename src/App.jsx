@@ -9,7 +9,6 @@ import Profile from "./components/Profile";
 import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
-import Revo from "./components/Revo";
 import Ally from "./components/Ally";
 import ImageUploader from "./components/ImageUploader";
 import NotFound from "./components/pages/NotFound";
@@ -38,7 +37,8 @@ const App = () => {
       rider: newClass.rider,
       bike: newClass.bike,
       notes: newClass.notes === undefined ? "None" : newClass.notes,
-      userId: auth?.currentUser?.uid
+      userId: auth?.currentUser?.uid,
+      lastEdited: new Date().toISOString(),
     })
     return;
   };

@@ -7,6 +7,9 @@ import { RxCross2 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
 import { fetchFriendList } from './FriendsUtil';
 import { toast } from 'react-toastify';
+import ConditionalBadge from './ConditionalBadge';
+import { Badge } from '@material-tailwind/react';
+
 
 const MyClasses = ({deleteClass}) => {
     const onDeleteClick = (classId) => {
@@ -59,8 +62,6 @@ const MyClasses = ({deleteClass}) => {
     useEffect(() => {
         const fetchClasses = async () => {
             try {
-                //const res = await fetch('/api/spinClasses');
-                //const data = await res.json();
                 const data = await getDocs(classesCollectionRef);
                 const filteredData = data.docs
                     .map((doc) => ({...doc.data(), id: doc.id}))
@@ -75,13 +76,25 @@ const MyClasses = ({deleteClass}) => {
         fetchClasses();
     }, []);
 
+    // Returns true if class was added within the past 2 minutes, false otherwise
+    const isClassAddedInPastMinute = (classDateTime) => {
+        const now = new Date();
+        const TwoMinutesAgo = new Date(now.getTime() - 60 * 2000); // Subtract 2 minutes from current time
+        const classTime = new Date(classDateTime); 
+        return true;
+        return classTime >= TwoMinutesAgo;
+      };
+
   return (
     <div className="container mx-auto mt-6 px-8 py-5">
         <h1 className="text-3xl font-bold mb-4">Upcoming Classes</h1>
             {loading ? (<Spinners loading={loading} />) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {classes.filter(item => item.date.toDate() >= new Date()).map((classItem) => (
-                        <div key={classItem.id} className="bg-gray-200 p-4 rounded-md shadow-md">
+                        <ConditionalBadge 
+                            condition={isClassAddedInPastMinute(classItem.lastEdited)} 
+                            wrapper={children => <Badge>{children}</Badge>}>
+                        <div key={classItem.id} className="p-4 rounded-md shadow-md bg-gray-200">
                             <p><strong>Date:</strong> {classItem.date.toDate().toDateString()}</p>
                             <p><strong>Time:</strong> {classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})}</p>
                             <p><strong>Instructor:</strong> {classItem.instructor}</p>
@@ -99,6 +112,7 @@ const MyClasses = ({deleteClass}) => {
                                 <button onClick={() => onDeleteClick(classItem.id)} className="bg-red-400 hover:bg-red-600 text-black font-bold py-2 px-4 rounded">Delete</button>
                             </div>
                         </div>
+                        </ConditionalBadge>
                     ))}
                 </div>)}
 
@@ -106,7 +120,10 @@ const MyClasses = ({deleteClass}) => {
             {loading ? (<Spinners loading={loading} />) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {classes.filter(item => item.date.toDate() <= new Date()).map((classItem) => (
-                        <div key={classItem.id} className="bg-gray-200 p-4 mb-2 rounded-md shadow-md">
+                        <ConditionalBadge 
+                            condition={isClassAddedInPastMinute(classItem.lastEdited)} 
+                            wrapper={children => <Badge color="green">{children}</Badge>}>
+                        <div key={classItem.id} className="p-4 rounded-md shadow-md bg-gray-200">
                             <p><strong>Date:</strong> {classItem.date.toDate().toDateString()}</p>
                             <p><strong>Time:</strong> {classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})}</p>
                             <p><strong>Instructor:</strong> {classItem.instructor}</p>
@@ -118,6 +135,7 @@ const MyClasses = ({deleteClass}) => {
                                 <button onClick={() => onDeleteClick(classItem.id)} className="bg-red-400 hover:bg-red-600 text-black font-bold py-2 px-4 rounded">Delete</button>
                             </div>
                         </div>
+                        </ConditionalBadge>
                     ))}
                 </div>)}
 
