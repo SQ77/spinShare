@@ -1,6 +1,14 @@
-import Swal from "sweetalert2";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactForm = () => {
+
+
+    const showToastMessage = () => {
+        toast.success("Success Notification !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      };
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -19,14 +27,6 @@ const ContactForm = () => {
             },
             body: json
         }).then((res) => res.json());
-
-        if (res.success) {
-            Swal.fire({
-                title: "Success!",
-                text: "You have submitted the form!",
-                icon: "success"
-            });
-        }
     };
 
     return (
@@ -63,6 +63,7 @@ const ContactForm = () => {
                 <button
                     type="submit"
                     className="text-white bg-blue-500 hover:bg-blue-600 tracking-wide rounded-md text-sm px-4 py-3 w-full"
+                    onClick={showToastMessage}
                 >
                     Submit
                 </button>
