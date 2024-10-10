@@ -1,26 +1,40 @@
-
+import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
+import { FaChevronUp } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
+import { useState } from "react";
+   
 const Features = () => {
-  return (
-    <section className="py-20">
-          <div className="container mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-6">Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-9">
-                  <div className="bg-white border-2 shadow-lg rounded-lg p-8 ml-5 mr-5 md:mr-0 hover:bg-gray-200">
-                      <h3 className="text-xl font-semibold mb-4">Create, Edit, Delete</h3>
-                      <p className="text-black">Let your friends know your plans by filling in your schedule with spin classes.</p>
-                  </div>
-                  <div className="bg-white border-2 shadow-lg rounded-lg ml-5 mr-5 md:ml-0 md:mr-0 p-8 hover:bg-gray-200">
-                      <h3 className="text-xl font-semibold mb-4">Add Friends</h3>
-                      <p className="text-black">Send and manage friend requests. Friends will be able to see each other's schedule.</p>
-                  </div>
-                  <div className="bg-white border-2 shadow-lg rounded-lg p-8 ml-5 mr-5 md:ml-0 hover:bg-gray-200">
-                      <h3 className="text-xl font-semibold mb-4">Absolute & Ally Schedule Forecast</h3>
-                      <p className="text-black">Access the schedule of upcoming classes at Absolute & Ally and easily add them to your own schedule.</p>
-                  </div>
-              </div>
-          </div>
-    </section>
-  );
-};
+    const [openAcc1, setOpenAcc1] = useState(true);
+    const [openAcc2, setOpenAcc2] = useState(true);
+    const [openAcc3, setOpenAcc3] = useState(true);
+
+    const handleOpenAcc1 = () => setOpenAcc1((cur) => !cur);
+    const handleOpenAcc2 = () => setOpenAcc2((cur) => !cur);
+    const handleOpenAcc3 = () => setOpenAcc3((cur) => !cur);
+
+    return (
+        <div className="container mx-6 md:mx-10 mt-10 mb-4">
+            <h2 className="text-3xl font-bold mb-2 md:text-center">Features</h2>
+            <Accordion open={openAcc1} icon={openAcc1 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5">
+                <AccordionHeader onClick={handleOpenAcc1} className="text-2xl">Create, Edit, Delete</AccordionHeader>
+                <AccordionBody className="text-xl text-black">
+                Let your friends know your plans by adding spin classes to your schedule.
+                </AccordionBody>
+            </Accordion>
+            <Accordion open={openAcc2} icon={openAcc2 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5">
+                <AccordionHeader onClick={handleOpenAcc2} className="text-2xl">Add Friends</AccordionHeader>
+                <AccordionBody className="text-xl text-black">
+                Send and manage friend requests. Friends will be able to see each other's schedule.
+                </AccordionBody>
+            </Accordion>
+            <Accordion open={openAcc3} icon={openAcc3 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5"> 
+                <AccordionHeader onClick={handleOpenAcc3} className="text-2xl">Absolute & Ally Schedules</AccordionHeader>
+                <AccordionBody className="text-xl text-black">
+                Access the schedule of upcoming classes at Absolute & Ally and easily add them to your own schedule.
+                </AccordionBody>
+            </Accordion>
+        </div>
+    );
+}
 
 export default Features;
