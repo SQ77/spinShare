@@ -9,7 +9,8 @@ const AddClass = ({ addClassSubmit }) => {
     const location = useLocation();
     const pathname = location.pathname;
     const userId = pathname.substring(pathname.lastIndexOf('/') + 1);
-    const [isManual, setIsManual] = useState(false);
+    const [isManual, setIsManual] = useState(
+        (location?.state?.from === "absolute" || location?.state?.from === "ally") ? true : false);
 
     const handleToggle = () => {
         setIsManual(prevState => !prevState);
@@ -93,7 +94,7 @@ const AddClass = ({ addClassSubmit }) => {
                 <label className={`mr-2 ${isManual ? 'text-black font-bold' : 'text-gray-500'}`}> 
                     Manual Adding 
                 </label>
-                <Switch defaultChecked onChange={handleToggle}/>
+                <Switch checked={!isManual} onChange={handleToggle}/>
                 <label className={`ml-2 ${isManual ? 'text-gray-500' : 'text-black font-bold'}`}>
                     Upload Image
                 </label>

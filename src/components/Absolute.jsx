@@ -87,7 +87,8 @@ const Absolute = () => {
                                 notes: classDetails.type,
                                 location: `Absolute-${location}`,
                                 date: date,
-                                time: classDetails.time}});
+                                time: classDetails.time,
+                                from: 'absolute'}});
     }
 
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
