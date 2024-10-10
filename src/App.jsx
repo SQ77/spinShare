@@ -9,14 +9,15 @@ import Profile from "./components/Profile";
 import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
-import Revo from "./components/Revo";
 import Ally from "./components/Ally";
+import ImageUploader from "./components/ImageUploader";
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { db, auth } from './FirebaseConfig';
 import { collection, addDoc, deleteDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
+
 
 const App = () => {
   const classesCollectionRef = collection(db, "classes");
@@ -36,7 +37,8 @@ const App = () => {
       rider: newClass.rider,
       bike: newClass.bike,
       notes: newClass.notes === undefined ? "None" : newClass.notes,
-      userId: auth?.currentUser?.uid
+      userId: auth?.currentUser?.uid,
+      lastEdited: new Date().toISOString()
     })
     return;
   };
@@ -78,7 +80,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/schedule/:userId" element={<ScheduleTable />} />
           <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
-          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass}/>} />
+          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass} />} />
           <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/add-friends/:userId" element={<AddFriends />} />
@@ -86,6 +88,7 @@ const App = () => {
           <Route path="/absolute/:location" element={<Absolute />} />
           {/*<Route path="/revo/:location" element={<Revo />} />*/}
           <Route path="/ally" element={<Ally />} />
+          <Route path="/upload/:userId" element={<ImageUploader addClassAuto={addClass}/>} />
           <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
