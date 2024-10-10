@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { createWorker } from 'tesseract.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { IoAlertCircle } from "react-icons/io5";
+import { Alert } from "@material-tailwind/react";
 
 const ImageUploader = ({ addClassAuto, userId }) => {
   const navigate = useNavigate();
@@ -332,6 +334,14 @@ const ImageUploader = ({ addClassAuto, userId }) => {
         {buttonDisabled && <button disabled className="flex items-center border border-gray-500 bg-white text-gray-500 font-semibold py-2 px-4 rounded">
             Submit
         </button>}
+      </div>
+
+      <div className="flex w-full flex-col gap-2 mb-4">
+        <Alert variant="ghost" icon={<IoAlertCircle className="w-8 h-8"/>}>
+          <p>
+            Only screenshots of spin class bookings at Absolute are supported
+          </p>
+        </Alert>
       </div>
 
       {image && (

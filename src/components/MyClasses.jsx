@@ -81,7 +81,6 @@ const MyClasses = ({deleteClass}) => {
         const now = new Date();
         const TwoMinutesAgo = new Date(now.getTime() - 60 * 2000); // Subtract 2 minutes from current time
         const classTime = new Date(classDateTime); 
-        return true;
         return classTime >= TwoMinutesAgo;
       };
 
