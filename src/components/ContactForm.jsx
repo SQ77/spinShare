@@ -1,6 +1,4 @@
-import React from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
 
@@ -8,7 +6,7 @@ const ContactForm = () => {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        formData.append("access_key", "3b7663c6-851a-47b0-9d88-841cf410f21c"); // Add your access key here
+        formData.append("access_key", "3b7663c6-851a-47b0-9d88-841cf410f21c"); 
 
         const object = Object.fromEntries(formData);
         const json = JSON.stringify(object);
@@ -22,25 +20,22 @@ const ContactForm = () => {
             body: json
         }).then((res) => res.json());
 
-        // Show toast if the submission is successful
         if (res.success) {
-            toast.success("Submitted!", {
-                position: toast.TOP_RIGHT,
-            });
+            toast.success("Form submitted successfully!");
         } else {
             toast.error("Submission failed. Please try again.");
         }
     };
 
     return (
-        <div className="p-4 mx-auto max-w-xl bg-gray-100 font-[sans-serif] rounded-md shadow-md">
-            <h1 className="text-3xl text-gray-800 font-extrabold text-center">Contact Us</h1>
-            <form onSubmit={onSubmit} className="mt-8 space-y-4">
+        <div className="mx-6 px-4 md:mx-auto md:max-w-lg bg-gray-100 rounded-md shadow-md py-6">
+            <h1 className="text-3xl text-black font-bold text-center">Contact Us</h1>
+            <form onSubmit={onSubmit} className="md:mt-6 mt-8 px-4 md:px-2 space-y-4">
                 <input
                     type="text"
                     name="name"
                     placeholder="Name"
-                    className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
+                    className="w-full rounded-md py-2 sm:py-3 px-3 sm:px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm sm:text-base outline-blue-500"
                     required
                     maxLength="50"
                 />
@@ -48,7 +43,7 @@ const ContactForm = () => {
                     type="email"
                     name="email"
                     placeholder="Email"
-                    className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
+                    className="w-full rounded-md py-2 sm:py-3 px-3 sm:px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm sm:text-base outline-blue-500"
                     required
                     maxLength="50"
                 />
@@ -56,26 +51,24 @@ const ContactForm = () => {
                     type="text"
                     name="subject"
                     placeholder="Subject"
-                    className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
+                    className="w-full rounded-md py-2 sm:py-3 px-3 sm:px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm sm:text-base outline-blue-500"
                     maxLength="50"
                 />
                 <textarea
                     name="message"
                     placeholder="Message"
                     rows="6"
-                    className="w-full rounded-md px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm pt-3 outline-blue-500"
+                    className="w-full rounded-md px-3 sm:px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm sm:text-base pt-2 sm:pt-3 outline-blue-500"
                     required
                     maxLength="100"
                 ></textarea>
                 <button
                     type="submit"
-                    className="text-white bg-blue-500 hover:bg-blue-600 tracking-wide rounded-md text-sm px-4 py-3 w-full"
+                    className="text-black font-bold bg-blue-400 hover:bg-blue-600 tracking-wide rounded-md text-sm sm:text-base px-4 py-3 w-full"
                 >
                     Submit
                 </button>
             </form>
-
-            <ToastContainer />
         </div>
     );
 };

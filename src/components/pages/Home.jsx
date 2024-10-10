@@ -1,13 +1,13 @@
 import Hero from "../Hero";
 import Features from "../Features";
-import ContactForm from "../ContactForm"; // Import the ContactForm component
+import ContactForm from "../ContactForm";
 
 const Home = () => {
   return (
     <>
       <Hero />
       <Features />
-      <div className="bg-indigo-700 py-8"> 
+      <div className="bg-blue-800 py-8"> 
           <ContactForm />
       </div>
     </>
