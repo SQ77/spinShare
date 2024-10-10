@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-indigo-700 border-b border-indigo-500">
+    <nav className="bg-blue-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="flex h-20 md:items-center md:justify-between">
           <div className="flex flex-1 md:items-stretch md:justify-start">
@@ -38,7 +38,6 @@ const Navbar = () => {
                   Home
                 </NavLink>
 
-                {/* Studios Dropdown */}
                 <div className="relative font-[sans-serif] w-max mx-auto group">
                   <button
                     type="button"
@@ -53,7 +52,7 @@ const Navbar = () => {
                   </button>
 
                   {/* Dropdown menu */}
-                  <ul id="dropdownMenu" className="absolute hidden group-hover:block shadow-lg bg-white py-2 z-[1000] min-w-full w-max rounded max-h-96 overflow-auto">
+                  <ul id="dropdownMenu" className="absolute hidden group-hover:block shadow-lg bg-white py-2 z-[1000] min-w-full w-max rounded max-h-96 overflow-auto mt-0"> 
                     <NavLink to="/absolute/STV"
                       className={`block text-gray-800 hover:bg-indigo-600 hover:text-white rounded-md px-4 py-2 transition duration-150 ease-in-out ${isActive('/absolute/STV') && 'bg-gray-300 text-black'}`}>
                       Absolute
