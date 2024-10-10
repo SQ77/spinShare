@@ -1,14 +1,8 @@
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactForm = () => {
-
-
-    const showToastMessage = () => {
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      };
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -27,6 +21,15 @@ const ContactForm = () => {
             },
             body: json
         }).then((res) => res.json());
+
+        // Show toast if the submission is successful
+        if (res.success) {
+            toast.success("Submitted!", {
+                position: toast.TOP_RIGHT,
+            });
+        } else {
+            toast.error("Submission failed. Please try again.");
+        }
     };
 
     return (
@@ -39,6 +42,7 @@ const ContactForm = () => {
                     placeholder="Name"
                     className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
                     required
+                    maxLength="50"
                 />
                 <input
                     type="email"
@@ -46,12 +50,14 @@ const ContactForm = () => {
                     placeholder="Email"
                     className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
                     required
+                    maxLength="50"
                 />
                 <input
                     type="text"
                     name="subject"
                     placeholder="Subject"
                     className="w-full rounded-md py-3 px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm outline-blue-500"
+                    maxLength="50"
                 />
                 <textarea
                     name="message"
@@ -59,15 +65,17 @@ const ContactForm = () => {
                     rows="6"
                     className="w-full rounded-md px-4 text-gray-800 bg-gray-200 focus:bg-transparent text-sm pt-3 outline-blue-500"
                     required
+                    maxLength="100"
                 ></textarea>
                 <button
                     type="submit"
                     className="text-white bg-blue-500 hover:bg-blue-600 tracking-wide rounded-md text-sm px-4 py-3 w-full"
-                    onClick={showToastMessage}
                 >
                     Submit
                 </button>
             </form>
+
+            <ToastContainer />
         </div>
     );
 };
