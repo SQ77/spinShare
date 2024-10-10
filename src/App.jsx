@@ -38,7 +38,7 @@ const App = () => {
       bike: newClass.bike,
       notes: newClass.notes === undefined ? "None" : newClass.notes,
       userId: auth?.currentUser?.uid,
-      lastEdited: new Date().toISOString(),
+      lastEdited: new Date().toISOString()
     })
     return;
   };
