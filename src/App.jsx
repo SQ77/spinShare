@@ -71,25 +71,27 @@ const App = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <ToastContainer />
-      <Routes>
+      <main className="flex-grow">
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/schedule/:userId" element={<ScheduleTable />} />
-          <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
-          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass}/>} />
-          <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
+          <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass} />} />
+          <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass} />} />
+          <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass} />} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/add-friends/:userId" element={<AddFriends />} />
           <Route path="/mail/:userId" element={<Mail />} />
           <Route path="/absolute/:location" element={<Absolute />} />
-          {/*<Route path="/revo/:location" element={<Revo />} />*/}
           <Route path="/ally" element={<Ally />} />
           <Route path="*" element={<NotFound />} />
-      </Routes>
+        </Routes>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
+
 export default App;
