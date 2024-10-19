@@ -74,7 +74,8 @@ const Ally = () => {
                                 notes: classDetails.type,
                                 location: "Ally",
                                 date: date,
-                                time: classDetails.time}});
+                                time: classDetails.time,
+                                from: "ally"}});
     }
 
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
