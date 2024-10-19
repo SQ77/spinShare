@@ -134,9 +134,9 @@ const AddClass = ({ addClassSubmit }) => {
                             <option value="Rev-Orchard">Rev-Orchard</option>
                             <option value="Rev-TP">Rev-TP</option>
                             <option value="Rev-Bugis">Rev-Bugis</option>
-                            <option value="Rev-Suntec">Rev-Suntec</option>
                             <option value="XYCO">XYCO</option>
-                            <option value="XYCO">ELEV8</option>
+                            <option value="ELEV8">ELEV8</option>
+                            <option value="Vertex">Vertex</option>
                         </select>
                     </div>
                     <div className="mb-4">
