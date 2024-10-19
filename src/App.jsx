@@ -81,7 +81,7 @@ const App = () => {
           <Route path="/schedule/:userId" element={<ScheduleTable />} />
           <Route path="/classes/:userId" element={<ClassList deleteClass={deleteClass}/>} />
           <Route path="/add-class/:id" element={<AddClass addClassSubmit={addClass} />} />
-          <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass}/>} />
+          <Route path="/edit-class/:classid/:userid" element={<EditClass updateClassSubmit={updateClass} />} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/add-friends/:userId" element={<AddFriends />} />
           <Route path="/mail/:userId" element={<Mail />} />
