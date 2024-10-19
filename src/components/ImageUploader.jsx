@@ -32,7 +32,6 @@ const ImageUploader = ({ addClassAuto, userId }) => {
       tessedit_char_whitelist: '0123456789:/-&+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ',
     });
     const jobObject = await worker.recognize(image, {layoutBlocks:true});
-    //const { data: { text } } = await worker.recognize(image, {layoutBlocks:true});
 
     setOcrResult(jobObject.data.text);
     setLoading(false);
@@ -41,7 +40,6 @@ const ImageUploader = ({ addClassAuto, userId }) => {
       return;
     }
 
-    //extractDetails(jobObject.data.text); //Old approach
     processHOCR(jobObject.data.hocr);
 
     await worker.terminate();
