@@ -137,6 +137,7 @@ const AddClass = ({ addClassSubmit }) => {
                             <option value="XYCO">XYCO</option>
                             <option value="ELEV8">ELEV8</option>
                             <option value="Vertex">Vertex</option>
+                            <option value="Vibe">Vibe</option>
                         </select>
                     </div>
                     <div className="mb-4">
