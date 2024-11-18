@@ -133,7 +133,7 @@ const Revo = () => {
                                 <div key={index} className="ml-5 mt-5 mb-5">
                                     <div onClick={() => enroll(convertDateFormat(date), schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
                                     <div className="text-s">{schedule.instructor}</div>
-                                    <div className="text-s">{schedule.time}</div>
+                                    <div className="text-s">{convertTimeFormat(schedule.time)}</div>
                                 </div>
                             ))}
                             </div>
