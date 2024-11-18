@@ -35,8 +35,8 @@ const Navbar = () => {
                   <NavLink to="/absolute/STV" 
                     className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/absolute/STV') || isActive('/absolute/CTP') || isActive('/absolute/MW') || isActive('/absolute/KTG')) && 'bg-black'}`}>Absolute</NavLink>
                   <NavLink to="/ally" className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${isActive('/ally') && 'bg-black'}`}>Ally</NavLink>
-                  {/*<NavLink to="/revo/TP" 
-                    className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/revo/TP') || isActive('/revo/Orchard') || isActive('/revo/Bugis') || isActive('/revo/Suntec')) && 'bg-black'}`}>Revo</NavLink>*/}
+                  <NavLink to="/revo/TP" 
+                    className={`text-white hover:bg-gray-900 rounded-md px-3 py-2 ${(isActive('/revo/TP') || isActive('/revo/Orchard') || isActive('/revo/Bugis')) && 'bg-black'}`}>Revo</NavLink>
                   <CurrentUser auth={auth} >
                     {(user) => (
                       <>

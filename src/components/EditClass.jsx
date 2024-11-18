@@ -25,8 +25,6 @@ const EditClass = ({updateClassSubmit}) => {
         const classLoader = async (id) => {
             const classDoc = doc(db, "classes", id);
             const data = await getDoc(classDoc);
-            //const res = await fetch(`/api/spinClasses/${id}`);
-            //const data = await res.json();
             const filteredData = data.data();
             setCurrClass(filteredData);
 

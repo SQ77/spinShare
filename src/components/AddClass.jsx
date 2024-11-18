@@ -9,8 +9,10 @@ const AddClass = ({ addClassSubmit }) => {
     const location = useLocation();
     const pathname = location.pathname;
     const userId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const manualLocations = ["absolute", "ally", "revo"];
     const [isManual, setIsManual] = useState(
-        (location?.state?.from === "absolute" || location?.state?.from === "ally") ? true : false);
+        manualLocations.includes(location?.state?.from)
+    );
 
     const handleToggle = () => {
         setIsManual(prevState => !prevState);

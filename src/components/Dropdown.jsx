@@ -8,7 +8,7 @@ const Dropdown = ({ currLocation, handleClick, studio }) => {
     if (studio === "absolute") {
       locations = ["STV", "CTP", "MW", "KTG"];
     } else {
-      locations = ["TP", "Orchard", "Bugis", "Suntec"];
+      locations = ["TP", "Orchard", "Bugis"];
     }
 
     const toggleDropdown = () => {

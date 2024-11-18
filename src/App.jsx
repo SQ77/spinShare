@@ -10,6 +10,7 @@ import AddFriends from "./components/AddFriends";
 import Mail from "./components/Mail";
 import Absolute from "./components/Absolute";
 import Ally from "./components/Ally";
+import Revo from "./components/Revo";
 import ImageUploader from "./components/ImageUploader";
 import NotFound from "./components/pages/NotFound";
 import { Routes, Route } from "react-router-dom";
@@ -88,6 +89,7 @@ const App = () => {
           <Route path="/mail/:userId" element={<Mail />} />
           <Route path="/absolute/:location" element={<Absolute />} />
           <Route path="/ally" element={<Ally />} />
+          <Route path="/revo/:location" element={<Revo />} />
           <Route path="/upload/:userId" element={<ImageUploader addClassAuto={addClass}/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>

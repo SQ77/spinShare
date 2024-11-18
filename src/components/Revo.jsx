@@ -16,8 +16,6 @@ const Revo = () => {
         revoCollectionRef = collection(db, "revoOrchard");
     } else if (location === "Bugis") {
         revoCollectionRef = collection(db, "revoBugis");
-    } else if (location === "Suntec") {
-        revoCollectionRef = collection(db, "revoSuntec");
     }
 
     useEffect(() => {
@@ -36,20 +34,11 @@ const Revo = () => {
             return newExpandedRows;
         });
     };
-  
-    // Convert time to a comparable value
+
+    // Converts time to a comparable value
     const timeToNumber = (time) => {
-        const [hour, minutePart] = time.split(':');
-        const minute = minutePart.slice(0, 2);
-        const period = minutePart.slice(2);
-        let hourNumber = parseInt(hour);
-        if (period.toUpperCase() === 'PM' && hourNumber !== 12) {
-            hourNumber += 12;
-        }
-        if (period.toUpperCase() === 'AM' && hourNumber === 12) {
-            hourNumber = 0;
-        }
-        return hourNumber * 60 + parseInt(minute);
+        const [hour, minute] = time.split(':').map(Number);
+        return hour * 60 + minute;
     };
 
     // Grouping and sorting the data by date and time
@@ -62,13 +51,9 @@ const Revo = () => {
         return acc;
     }, {});
 
-    // Sort dates in increasing order
+    // Sorts dates in increasing order
     const sortedDates = Object.keys(groupedSchedules).sort((a, b) => {
-        const [dayA, monthA] = a.split('.');
-        const [dayB, monthB] = b.split('.');
-        if (monthA > monthB) return 1;
-        if (monthA < monthB) return -1;
-        return dayA - dayB;
+        return new Date(a) - new Date(b);
     });
 
     const dropdownClicked = () => {
@@ -87,8 +72,25 @@ const Revo = () => {
                                 notes: classDetails.type,
                                 location: `Rev-${location}`,
                                 date: date,
-                                time: classDetails.time}});
+                                time: classDetails.time,
+                                from: "revo"}});
     }
+
+    // Converts date from YYYY-MM-DD to DD.MM 
+    const convertDateFormat = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}.${month}`;
+    };
+
+    // Converts time from HH:MM:SS to H:MM AM/PM
+    const convertTimeFormat = (time) => {
+        let [hour, minute] = time.split(':');
+        hour = parseInt(hour);
+        const period = hour >= 12 ? 'PM' : 'AM';
+        hour = hour % 12 || 12;
+        
+        return `${hour}:${minute} ${period}`;
+    };
 
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     
@@ -99,20 +101,21 @@ const Revo = () => {
                 <div className="hidden md:grid md:grid-cols-7 gap-7">
                     {sortedDates.map((date, index) => (
                     <div key={date} className="border p-5">
-                        <div className="text-center font-bold md:font-normal">{date} {days[index]}</div>
+                        <div className="text-center font-bold md:font-normal">{convertDateFormat(date)} {days[index]}</div>
                         {groupedSchedules[date]
                         .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
                         .map((schedule, index) => (
                             <div key={index} className="mt-5 mb-5">
-                            <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
+                            <div onClick={() => enroll(convertDateFormat(date), schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
                             <div className="text-s">{schedule.instructor}</div>
-                            <div className="text-s">{schedule.time}</div>
+                            <div className="text-s">{convertTimeFormat(schedule.time)}</div>
                             </div>
                         ))}
                     </div>
                     ))}
                 </div>
-
+                
+                {/* Small screens */}
                 <div className="md:hidden">
                     {sortedDates.map((date, index) => (
                     <div key={index} className="border mb-3">
@@ -120,7 +123,7 @@ const Revo = () => {
                         className="p-2 border text-center bg-gray-200 cursor-pointer h-auto"
                         onClick={() => toggleExpand(index)}
                         >
-                        {date} {days[index]}
+                        {convertDateFormat(date)} {days[index]}
                         </div>
                         {expandedRows[index] && (
                             <div> 
@@ -128,7 +131,7 @@ const Revo = () => {
                             .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
                             .map((schedule, index) => (
                                 <div key={index} className="ml-5 mt-5 mb-5">
-                                    <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
+                                    <div onClick={() => enroll(convertDateFormat(date), schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
                                     <div className="text-s">{schedule.instructor}</div>
                                     <div className="text-s">{schedule.time}</div>
                                 </div>
