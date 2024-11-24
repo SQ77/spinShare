@@ -28,9 +28,9 @@ const Features = () => {
                 </AccordionBody>
             </Accordion>
             <Accordion open={openAcc3} icon={openAcc3 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5"> 
-                <AccordionHeader onClick={handleOpenAcc3} className="text-2xl">Absolute & Ally Schedules</AccordionHeader>
+                <AccordionHeader onClick={handleOpenAcc3} className="text-2xl">Absolute, Ally, Revolution Schedules</AccordionHeader>
                 <AccordionBody className="text-xl text-black">
-                Access the schedule of upcoming classes at Absolute & Ally and easily add them to your own schedule.
+                Access the schedule of upcoming classes at Absolute, Ally, Revolution and easily add them to your own schedule.
                 </AccordionBody>
             </Accordion>
         </div>
