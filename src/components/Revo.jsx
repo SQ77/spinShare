@@ -11,12 +11,20 @@ const Revo = () => {
     const { location } = useParams();
     const navigate = useNavigate();
 
-    let revoCollectionRef = collection(db, "revoTP");
-    if (location === "Orchard") {
-        revoCollectionRef = collection(db, "revoOrchard");
-    } else if (location === "Bugis") {
-        revoCollectionRef = collection(db, "revoBugis");
+    const validLocations = {
+        TP: "revoTP",
+        Orchard: "revoOrchard",
+        Bugis: "revoBugis",
+    };
+
+    if (!validLocations[location]) {
+        useEffect(() => {
+            navigate("/not-found");
+        }, [navigate]); 
+        return;
     }
+
+    const revoCollectionRef = collection(db, validLocations[location]);
 
     useEffect(() => {
       const getClasses = async () => {

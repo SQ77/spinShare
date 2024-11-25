@@ -91,6 +91,7 @@ const App = () => {
           <Route path="/ally" element={<Ally />} />
           <Route path="/revo/:location" element={<Revo />} />
           <Route path="/upload/:userId" element={<ImageUploader addClassAuto={addClass}/>} />
+          <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

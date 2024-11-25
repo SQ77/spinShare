@@ -11,14 +11,21 @@ const Absolute = () => {
     const { location } = useParams();
     const navigate = useNavigate();
 
-    let absoluteCollectionRef = collection(db, "absoluteSTV");
-    if (location === "CTP") {
-        absoluteCollectionRef = collection(db, "absoluteCTP");
-    } else if (location == "MW") {
-        absoluteCollectionRef = collection(db, "absoluteMW");
-    } else if (location == "KTG") {
-        absoluteCollectionRef = collection(db, "absoluteKTG");
+    const validLocations = {
+        STV: "absoluteSTV",
+        CTP: "absoluteCTP",
+        MW: "absoluteMW",
+        KTG: "absoluteKTG",
+    };
+
+    if (!validLocations[location]) {
+        useEffect(() => {
+            navigate("/not-found");
+        }, [navigate]); 
+        return;
     }
+    
+    const absoluteCollectionRef = collection(db, validLocations[location]);
 
     useEffect(() => {
       const getClasses = async () => {
