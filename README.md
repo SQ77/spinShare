@@ -99,9 +99,7 @@ Inspired by the hassle of individually asking friends for their schedules, SpinS
 
 ### Home Page
 
-Users are greeted by this page when they visit the SpinShare website. They are able to view the Absolute and
-Ally schedules for the current week and learn about the main features of SpinShare. Clicking on the 
-"Sign In With Google" button will allow users to login to their account.
+Users are greeted by this page when they visit the SpinShare website. They are able to view the Absolute, Ally, and Revolution schedules for the current week and learn about the main features of SpinShare. Clicking on the "Sign In With Google" button will allow users to login to their account.
 
 <img src="src/assets/images/spinShare_login.png" alt="SpinShare login" width="600" height=auto>
 
@@ -127,7 +125,9 @@ This feature offers a clean and intuitive interface where users can easily input
     - [x] View friends' classes in your schedule
     - [ ] Invite friends to join classes
 - [x] Absolute and Ally schedules (updated weekly)
-- [ ] Revolution schedule (updated weekly)
+- [x] Revolution schedule (updated weekly)
+- [x] Add classes to schedule from image (Absolute spin)
+- [ ] Add classes to schedule from image (Other studios)
 
 
 See the [open issues](https://github.com/SQ77/spinShare/issues) for a full list of proposed features (and known issues).
