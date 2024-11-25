@@ -3,8 +3,9 @@ import defaultPic from '../assets/images/birthdayRat.png';
 import { auth } from "../FirebaseConfig";
 import CurrentUser from './CurrentUser';
 import FriendsList from './FriendsList';
-import { IoIosMail, IoIosMailUnread } from "react-icons/io";
+import { IoIosMail, IoIosMailUnread, IoIosAddCircleOutline } from "react-icons/io";
 import { unreadMessages } from './Auth';
+import { Tooltip } from '@material-tailwind/react';
 
 const Profile = () => {
     const {userId} = useParams();
@@ -13,12 +14,14 @@ const Profile = () => {
     <>
     <h1 className="text-3xl font-bold mt-8 mb-4 text-center">My Profile</h1>
     <div className="max-w-md mx-auto mt-5 mb-8 p-6 border border-gray-300 rounded-lg shadow-lg relative">
-        <div className="absolute top-0 right-0 mt-2 mr-2">
-            <NavLink to={`/mail/${userId}`}>
-                {!unreadMessages && <IoIosMail className="w-8 h-8 hover:w-10 hover:h-10"/>}
-                {unreadMessages && <IoIosMailUnread className="w-8 h-8 hover:w-10 hover:h-10"/>}
-            </NavLink>
-        </div>
+        <Tooltip content="Mailbox">
+            <div className="absolute top-0 right-0 mt-2 mr-2">
+                <NavLink to={`/mail/${userId}`}>
+                    {!unreadMessages && <IoIosMail className="w-8 h-8"/>}
+                    {unreadMessages && <IoIosMailUnread className="w-8 h-8"/>}
+                </NavLink>
+            </div>
+        </Tooltip>
         <CurrentUser auth={auth} >
             {(user) => (<>
                 <div className="flex items-center justify-center">
@@ -31,12 +34,19 @@ const Profile = () => {
                 <div className="flex items-center justify-center mt-4">
                     <p className="text-xl font-semibold">{user?.displayName}</p>
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 flex">
                     <h2 className="text-lg font-semibold">Friends</h2>
-                    <div className="mt-2">
-                        <FriendsList userId={user?.uid}/>
-                    </div>
-            </div> 
+                    <Tooltip content="Add Friends">
+                        <div className="ml-2">
+                            <NavLink to={`/add-friends/${userId}`}>
+                                <IoIosAddCircleOutline className="w-8 h-8"/>
+                            </NavLink>
+                        </div>
+                    </Tooltip>
+                </div> 
+                <div className="mt-2">
+                    <FriendsList userId={user?.uid}/>
+                </div>
             </>)}
         </CurrentUser> 
     </div>
