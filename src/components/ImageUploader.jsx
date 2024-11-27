@@ -211,14 +211,15 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     let firstClass = false;
     let temp = [];
     const ignore = ["EE", "LJ", "CE"];
+    const classTypes = ["CYCLE", "PILATES"];
   
     for (const desc of description) {
-      if (!firstClass && desc === "CYCLE") {
+      if (!firstClass && classTypes.includes(desc)) {
         firstClass = true;
       }
   
       if (firstClass) {
-        if (desc === "CYCLE") {
+        if (classTypes.includes(desc)) {
           if (temp.length) {
             res.push(temp.join(' '));  
           }
@@ -245,7 +246,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
 
     while (i < instructors.length) {
         const instr = instructors[i];
-        if (instr === 'Instructor') {
+        if (instr === 'Instructor' || (!isNaN(Number(instr)) && instr.trim() !== '')) {
           i += 1;
         } else if (instr === '&') {
           const firstInstr = stack.pop(); 
