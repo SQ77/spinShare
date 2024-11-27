@@ -14,8 +14,6 @@ const ScheduleTable = () => {
     useEffect(() => {
         const fetchClasses = async () => {
             try {
-                //const res = await fetch('/api/spinClasses');
-                //const data = await res.json();
                 const data = await getDocs(classesCollectionRef);
                 const filteredData = data.docs
                     .map((doc) => ({...doc.data(), id: doc.id}))

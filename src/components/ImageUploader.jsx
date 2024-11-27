@@ -8,7 +8,6 @@ import { Alert } from "@material-tailwind/react";
 const ImageUploader = ({ addClassAuto, userId }) => {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
-  const [ocrResult, setOcrResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -33,7 +32,6 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     });
     const jobObject = await worker.recognize(image, {layoutBlocks:true});
 
-    setOcrResult(jobObject.data.text);
     setLoading(false);
     if (!jobObject.data.text.trim()) {
       toast.error("No classes detected in the image!");
@@ -56,7 +54,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
     const columns = Array.from({ length: 5 }, () => []); 
     const classInfo = sortedClasses(columns, columnStarts, words, 4);
 
-    if (classInfo.length === 0) {
+    if (classInfo.length === 0 || classInfo.every(arr => Array.isArray(arr) && arr.length === 0)) {
       toast.error("No classes detected in the image!");
       return;
     }
