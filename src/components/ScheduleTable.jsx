@@ -74,10 +74,7 @@ const ScheduleTable = () => {
         const classesForDay = classesByDate[heading.date.toDateString()] || [];
         const classesList = classesForDay.map((classItem, classIndex) => (
             <div key={classIndex} className='py-2'> 
-                <Spin time={classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})} 
-                    instructor={classItem.instructor} 
-                    location={classItem.location} 
-                    userId={classItem.userId}/>
+                <Spin classInfo={classItem} userId={classItem.userId}/>
             </div>
         ));
         return (
@@ -127,10 +124,7 @@ const ScheduleTable = () => {
                             {(classesByDate[heading.date.toDateString()] || [])
                             .map((classItem, classIndex) => (
                                 <div key={classIndex} className="py-2 w-40"> 
-                                    <Spin time={classItem.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})} 
-                                        instructor={classItem.instructor} 
-                                        location={classItem.location} 
-                                        userId={classItem.userId}/>
+                                    <Spin classInfo={classItem} userId={classItem.userId}/>
                                 </div>))}
                         </td>
                         </tr>
