@@ -98,6 +98,11 @@ const Absolute = () => {
                                 from: 'absolute'}});
     }
 
+    const formatTime = (time) => {
+        // Adds a space before "PM" or "AM"
+        return time.replace(/([AP]M)$/, ' $1');
+    }
+
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     
     return (
@@ -114,7 +119,7 @@ const Absolute = () => {
                             <div key={index} className="mt-5 mb-5">
                                 <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
                                 <div className="text-s">{schedule.instructor}</div>
-                                <div className="text-s">{schedule.time}</div>
+                                <div className="text-s">{formatTime(schedule.time)}</div>
                             </div>
                         ))}
                     </div>
@@ -138,7 +143,7 @@ const Absolute = () => {
                                 <div key={index} className="ml-5 mt-5 mb-5">
                                     <div onClick={() => enroll(date, schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
                                     <div className="text-s">{schedule.instructor}</div>
-                                    <div className="text-s">{schedule.time}</div>
+                                    <div className="text-s">{formatTime(schedule.time)}</div>
                                 </div>
                             ))}
                             </div>
