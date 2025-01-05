@@ -84,7 +84,7 @@ Inspired by the hassle of individually asking friends for their schedules, SpinS
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Go to the [spinShare website](https://spinshare77.web.app/)
+1. Go to the [SpinShare website](https://spinshare77.web.app/)
 2. Create an account by signing in with Google
 3. Add classes to your schedule
 4. Share them with friends
@@ -99,15 +99,18 @@ Inspired by the hassle of individually asking friends for their schedules, SpinS
 
 ### Home Page
 
-Users are greeted by this page when they visit the SpinShare website. They are able to view the Absolute, Ally, and Revolution schedules for the current week and learn about the main features of SpinShare. Clicking on the "Sign In With Google" button will allow users to login to their account.
+When you visit the SpinShare website, you'll be greeted by this page. Here, you can view the Absolute, Ally, and Revolution schedules for the current week and explore the main features of SpinShare. Simply click the "Sign In With Google" button to log in to your account.
 
 <img src="src/assets/images/spinShare_login.png" alt="SpinShare login" width="600" height=auto>
 
 ### Add Class
 
-This feature offers a clean and intuitive interface where users can easily input details like the class name, instructor, date, time, and location. This user-friendly design ensures that adding a class is a hassle-free experience.
+This feature offers two modes for adding a class.
+- Manual mode: Fill out a simple form with details like the class name, instructor, date, time, and location. 
+- Image upload mode: Quickly add a class by uploading an image of your class bookings. <br> 
 
-<img src="src/assets/images/spinShare_addClass.png" alt="SpinShare Add Class" width="300" height="400">
+<img src="src/assets/images/spinShare_addClass.png" alt="SpinShare Add Class" width="300" height="400" style="margin-right: 20px;">
+<img src="src/assets/images/spinShare_addClass_auto.png" alt="SpinShare Add Class" width="550" height="400">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -118,14 +121,13 @@ This feature offers a clean and intuitive interface where users can easily input
 
 - [x] Schedule displaying classes
 - [x] Add and edit classes
-    - [x] View past and upcoming classes
+- [x] View past and upcoming classes
 - [x] Friend system
     - [x] Send friend requests
     - [x] Add and remove friends
     - [x] View friends' classes in your schedule
     - [ ] Invite friends to join classes
-- [x] Absolute and Ally schedules (updated weekly)
-- [x] Revolution schedule (updated weekly)
+- [x] Absolute, Ally, and Revolution schedules (updated weekly)
 - [x] Add classes to schedule from image (Absolute spin)
 - [ ] Add classes to schedule from image (Other studios)
 
