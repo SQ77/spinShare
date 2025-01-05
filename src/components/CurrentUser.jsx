@@ -13,7 +13,7 @@ function CurrentUser({ auth, children }) {
             // Add new user to database
             const addUser = async () => {
               const userDocRef = doc(db, "users", user?.uid);
-              const res = await setDoc(userDocRef, {
+              await setDoc(userDocRef, {
                 name: user?.displayName,
                 email: user?.email,
                 profilepic: user?.photoURL

@@ -17,7 +17,7 @@ const FriendCard = ({ currUserId, potentialFriend }) => {
 
     const sendRequest = async () => {
         // Add new friend request
-        const res = await addDoc(friendRequestsCollectionRef, {
+        await addDoc(friendRequestsCollectionRef, {
             senderId: currUserId,
             receiverId: potentialFriend.id,
         });
@@ -28,7 +28,7 @@ const FriendCard = ({ currUserId, potentialFriend }) => {
 
   return (
     <div key={potentialFriend?.id} className="border border-black rounded p-4 mb-4 mr-4 flex flex-col items-center relative"> 
-        <img src={potentialFriend?.profilepic} className="w-12 h-12 rounded-full border border-2 border-gray-300 mb-2 object-cover" alt="profilepic"/> 
+        <img src={potentialFriend?.profilepic} className="w-12 h-12 rounded-full border-2 border-gray-300 mb-2 object-cover" alt="profilepic"/> 
         <p className="text-gray-800 mb-2 font-semibold">{potentialFriend?.name}</p> 
         {!buttonDisabled && <button onClick={() => sendRequest()} className="flex items-center border border-blue-400 bg-white text-blue-500 hover:bg-blue-50 font-semibold py-2 px-4 rounded-full">
             Add Friend

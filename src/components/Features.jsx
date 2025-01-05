@@ -24,7 +24,7 @@ const Features = () => {
             <Accordion open={openAcc2} icon={openAcc2 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5">
                 <AccordionHeader onClick={handleOpenAcc2} className="text-2xl">Add Friends</AccordionHeader>
                 <AccordionBody className="text-xl text-black">
-                Send and manage friend requests. Friends will be able to see each other's schedule.
+                Send and manage friend requests. Friends will be able to see each other&apos;s schedule.
                 </AccordionBody>
             </Accordion>
             <Accordion open={openAcc3} icon={openAcc3 ? <FaChevronUp /> : <FaChevronDown />} className="w-4/5"> 

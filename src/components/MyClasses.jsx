@@ -43,7 +43,7 @@ const MyClasses = ({deleteClass}) => {
     const inviteFriends = (spinClass) => {
         selectedFriends.map((friend) => {
             const mailboxRef = collection(db, "users", friend, "mail");
-            const res = addDoc(mailboxRef, {
+            addDoc(mailboxRef, {
                 senderId: userId,
                 content: `Come join me at ${spinClass.instructor}'s class on ${spinClass.date.toDate().toDateString()} ${spinClass.date.toDate().toLocaleTimeString(undefined, {hour: 'numeric', minute: 'numeric'})} at ${spinClass.location}. I will be on bike ${spinClass.bike}.`,
             });

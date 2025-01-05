@@ -130,7 +130,7 @@ const ImageUploader = ({ addClassAuto, userId }) => {
           prevX1 = x1; 
         }
       }
-    };
+    }
 
     return colStarts;
   };

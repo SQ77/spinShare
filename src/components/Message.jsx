@@ -22,7 +22,7 @@ const Message = ({ msgId, receiverId, content, senderId }) => {
 
     const deleteMessage = async () => {
       // Delete message from user's mail
-      const res = await deleteDoc(doc(db, "users", receiverId, "mail", msgId));
+      await deleteDoc(doc(db, "users", receiverId, "mail", msgId));
       setIsDeleted(true);
       return;
     }

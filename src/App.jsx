@@ -31,7 +31,7 @@ const App = () => {
     const [hours, minutes] = timeString.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
 
-    const res = await addDoc(classesCollectionRef, {
+    await addDoc(classesCollectionRef, {
       date: Timestamp.fromDate(date),
       instructor: newClass.instructor,
       location: newClass.location,
@@ -47,7 +47,7 @@ const App = () => {
   // Delete class
   const deleteClass = async (id) => {
     const classDoc = doc(db, "classes", id)
-    const res = await deleteDoc(classDoc);
+    await deleteDoc(classDoc);
     window.location.reload();
     return; 
   }
@@ -61,7 +61,7 @@ const App = () => {
     const date = new Date(year, month - 1, day, hours, minutes);
 
     const classDoc = doc(db, "classes", updatedClass.id);
-    const res = await updateDoc(classDoc, {
+    await updateDoc(classDoc, {
       date: Timestamp.fromDate(date),
       instructor: updatedClass.instructor,
       location: updatedClass.location,

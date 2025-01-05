@@ -1,4 +1,3 @@
-import React from 'react'
 import logo from '../assets/images/SpinShare.png'
 import { NavLink, useLocation } from 'react-router-dom'
 import Auth from './Auth';

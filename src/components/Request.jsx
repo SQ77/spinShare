@@ -9,16 +9,16 @@ const Request = ({ currUserId, requester, requestId }) => {
 
     const acceptRequest = async () => {
         // Add new friendship
-        const res = await addDoc(friendshipsCollectionRef, {
+        await addDoc(friendshipsCollectionRef, {
           user1id: currUserId,
           user2id: requester?.id
         });
 
         // Delete request from friendRequests collection
-        const res2 = await deleteDoc(doc(db, "friendRequests", requestId));
+        await deleteDoc(doc(db, "friendRequests", requestId));
 
         // Add new message to mail collection
-        const res3 = await addDoc(collection(db, "users", requester?.id, "mail"), {
+        await addDoc(collection(db, "users", requester?.id, "mail"), {
           content: "I have accepted your friend request!",
           senderId: currUserId
         });
@@ -30,7 +30,7 @@ const Request = ({ currUserId, requester, requestId }) => {
 
     const rejectRequest = async () => {
       // Delete request from friendRequests collection
-      const res2 = await deleteDoc(doc(db, "friendRequests", requestId));
+      await deleteDoc(doc(db, "friendRequests", requestId));
       setIsVisible(false);
       return;
     }
