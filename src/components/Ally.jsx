@@ -3,19 +3,27 @@ import { db, auth } from '../FirebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Spinners from './Spinners';
 
 const Ally = () => {
     const [schedules, setSchedules] = useState([]);
     const [expandedRows, setExpandedRows] = useState(Array(7).fill(false));
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
+    const navigate = useNavigate();
     const allyCollectionRef = collection(db, "ally");
 
     useEffect(() => {
       const getClasses = async () => {
-        const data = await getDocs(allyCollectionRef);
-        const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        setSchedules(filteredData);
+        try {
+            const data = await getDocs(allyCollectionRef);
+            const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+            setSchedules(filteredData);  
+        } catch {
+            toast.error("Error occured when fetching Ally class data!");
+        } finally {
+            setLoading(false);
+        }
       };
       getClasses();
     }, []);
@@ -84,6 +92,10 @@ const Ally = () => {
     }
 
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
+    if (loading) {
+        return <Spinners loading={true} />
+    }
     
     return (
         <>

@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { db, auth } from '../FirebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
-import Dropdown from './Dropdown';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Dropdown from './Dropdown';
+import Spinners from './Spinners';
 
 const Absolute = () => {
     const [schedules, setSchedules] = useState([]);
     const [expandedRows, setExpandedRows] = useState(Array(7).fill(false));
+    const [loading, setLoading] = useState(true);
+
     const { location } = useParams();
     const navigate = useNavigate();
 
@@ -29,9 +32,15 @@ const Absolute = () => {
 
     useEffect(() => {
       const getClasses = async () => {
-        const data = await getDocs(absoluteCollectionRef);
-        const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        setSchedules(filteredData);
+        try {
+            const data = await getDocs(absoluteCollectionRef);
+            const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+            setSchedules(filteredData);
+        } catch {
+            toast.error("Error occured when fetching Absolute class data!");
+        } finally {
+            setLoading(false);
+        }
       };
       getClasses();
     }, []);
@@ -104,6 +113,10 @@ const Absolute = () => {
     }
 
     const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
+    if (loading) {
+        return <Spinners loading={true} />
+    }
     
     return (
         <>
