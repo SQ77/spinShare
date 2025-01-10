@@ -23,7 +23,8 @@ const AddClass = ({ addClassSubmit }) => {
     if (rawDate) {
         const day = rawDate.split('.')[0];
         const month = rawDate.split('.')[1];
-        formattedDate = `2024-${month}-${day}`;
+        const currentYear = new Date().getFullYear();
+        formattedDate = `${currentYear}-${month}-${day}`;
     } 
 
     const convertTime = (timeStr) => {
