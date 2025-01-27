@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { db, auth } from '../FirebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
-import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Dropdown from './Dropdown';
-import Spinners from './Spinners';
+import { useEffect, useState } from "react";
+import { db, auth } from "../FirebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Dropdown from "./Dropdown";
+import Spinners from "./Spinners";
 
 const Revo = () => {
     const [schedules, setSchedules] = useState([]);
@@ -23,25 +23,30 @@ const Revo = () => {
     if (!validLocations[location]) {
         useEffect(() => {
             navigate("/not-found");
-        }, [navigate]); 
+        }, [navigate]);
         return;
     }
 
     const revoCollectionRef = collection(db, validLocations[location]);
 
     useEffect(() => {
-      const getClasses = async () => {
-        try {
-            const data = await getDocs(revoCollectionRef);
-            const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
-            setSchedules(filteredData);
-        } catch {
-            toast.error("Error occured when fetching Revolution class data!");
-        } finally {
-            setLoading(false);
-        }
-      };
-      getClasses();
+        const getClasses = async () => {
+            try {
+                const data = await getDocs(revoCollectionRef);
+                const filteredData = data.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setSchedules(filteredData);
+            } catch {
+                toast.error(
+                    "Error occured when fetching Revolution class data!"
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+        getClasses();
     }, []);
 
     const toggleExpand = (index) => {
@@ -54,7 +59,7 @@ const Revo = () => {
 
     // Converts time to a comparable value
     const timeToNumber = (time) => {
-        const [hour, minute] = time.split(':').map(Number);
+        const [hour, minute] = time.split(":").map(Number);
         return hour * 60 + minute;
     };
 
@@ -84,82 +89,147 @@ const Revo = () => {
         }
         const confirm = window.confirm("Add this class to your schedule?");
         if (!confirm) return;
-        return navigate(`/add-class/${auth?.currentUser?.uid}`, 
-                        {state: {instructor: classDetails.instructor, 
-                                notes: classDetails.type,
-                                location: `Rev-${location}`,
-                                date: date,
-                                time: classDetails.time,
-                                from: "revo"}});
-    }
+        return navigate(`/add-class/${auth?.currentUser?.uid}`, {
+            state: {
+                instructor: classDetails.instructor,
+                notes: classDetails.type,
+                location: `Rev-${location}`,
+                date: date,
+                time: classDetails.time,
+                from: "revo",
+            },
+        });
+    };
 
-    // Converts date from YYYY-MM-DD to DD.MM 
+    // Converts date from YYYY-MM-DD to DD.MM
     const convertDateFormat = (date) => {
-        const [year, month, day] = date.split('-');
+        const [year, month, day] = date.split("-");
         return `${day}.${month}`;
     };
 
     // Converts time from HH:MM:SS to H:MM AM/PM
     const convertTimeFormat = (time) => {
-        let [hour, minute] = time.split(':');
+        let [hour, minute] = time.split(":");
         hour = parseInt(hour);
-        const period = hour >= 12 ? 'PM' : 'AM';
+        const period = hour >= 12 ? "PM" : "AM";
         hour = hour % 12 || 12;
-        
+
         return `${hour}:${minute} ${period}`;
     };
 
-    const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    // Returns the day of the week in short form
+    const getDayOfWeek = (dateStr) => {
+        const date = new Date(dateStr);
+
+        const dayOfWeek = date
+            .toLocaleString("en-SG", { weekday: "short" })
+            .toUpperCase();
+
+        return dayOfWeek;
+    };
 
     if (loading) {
-        return <Spinners loading={true} />
+        return <Spinners loading={true} />;
     }
-    
+
     return (
         <>
-            <h1 className="text-3xl font-bold mt-8 mb-4 text-center">Revolution <Dropdown currLocation={location} handleClick={dropdownClicked} studio="revo"/> Schedule</h1> 
+            <h1 className="text-3xl font-bold mt-8 mb-4 text-center">
+                Revolution{" "}
+                <Dropdown
+                    currLocation={location}
+                    handleClick={dropdownClicked}
+                    studio="revo"
+                />{" "}
+                Schedule
+            </h1>
             <div className="p-4 ml-5 mt-5 mb-5">
                 <div className="hidden md:grid md:grid-cols-7 gap-7">
-                    {sortedDates.map((date, index) => (
-                    <div key={date} className="border p-5">
-                        <div className="text-center font-bold md:font-normal">{convertDateFormat(date)} {days[index]}</div>
-                        {groupedSchedules[date]
-                        .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
-                        .map((schedule, index) => (
-                            <div key={index} className="mt-5 mb-5">
-                            <div onClick={() => enroll(convertDateFormat(date), schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
-                            <div className="text-s">{schedule.instructor}</div>
-                            <div className="text-s">{convertTimeFormat(schedule.time)}</div>
+                    {sortedDates.map((date) => (
+                        <div key={date} className="border p-5">
+                            <div className="text-center font-bold md:font-normal">
+                                {convertDateFormat(date)} {getDayOfWeek(date)}
                             </div>
-                        ))}
-                    </div>
+                            {groupedSchedules[date]
+                                .sort(
+                                    (a, b) =>
+                                        timeToNumber(a.time) -
+                                        timeToNumber(b.time)
+                                )
+                                .map((schedule, index) => (
+                                    <div key={index} className="mt-5 mb-5">
+                                        <div
+                                            onClick={() =>
+                                                enroll(
+                                                    convertDateFormat(date),
+                                                    schedule
+                                                )
+                                            }
+                                            className="text-s font-bold cursor-pointer hover:underline"
+                                        >
+                                            {schedule.type}
+                                        </div>
+                                        <div className="text-s">
+                                            {schedule.instructor}
+                                        </div>
+                                        <div className="text-s">
+                                            {convertTimeFormat(schedule.time)}
+                                        </div>
+                                    </div>
+                                ))}
+                        </div>
                     ))}
                 </div>
-                
+
                 {/* Small screens */}
                 <div className="md:hidden">
                     {sortedDates.map((date, index) => (
-                    <div key={index} className="border mb-3">
-                        <div 
-                        className="p-2 border text-center bg-gray-200 cursor-pointer h-auto"
-                        onClick={() => toggleExpand(index)}
-                        >
-                        {convertDateFormat(date)} {days[index]}
-                        </div>
-                        {expandedRows[index] && (
-                            <div> 
-                            {groupedSchedules[date]
-                            .sort((a, b) => timeToNumber(a.time) - timeToNumber(b.time))
-                            .map((schedule, index) => (
-                                <div key={index} className="ml-5 mt-5 mb-5">
-                                    <div onClick={() => enroll(convertDateFormat(date), schedule)} className="text-s font-bold cursor-pointer hover:underline">{schedule.type}</div>
-                                    <div className="text-s">{schedule.instructor}</div>
-                                    <div className="text-s">{convertTimeFormat(schedule.time)}</div>
-                                </div>
-                            ))}
+                        <div key={index} className="border mb-3">
+                            <div
+                                className="p-2 border text-center bg-gray-200 cursor-pointer h-auto"
+                                onClick={() => toggleExpand(index)}
+                            >
+                                {convertDateFormat(date)} {getDayOfWeek(date)}
                             </div>
-                        )}
-                    </div>
+                            {expandedRows[index] && (
+                                <div>
+                                    {groupedSchedules[date]
+                                        .sort(
+                                            (a, b) =>
+                                                timeToNumber(a.time) -
+                                                timeToNumber(b.time)
+                                        )
+                                        .map((schedule, index) => (
+                                            <div
+                                                key={index}
+                                                className="ml-5 mt-5 mb-5"
+                                            >
+                                                <div
+                                                    onClick={() =>
+                                                        enroll(
+                                                            convertDateFormat(
+                                                                date
+                                                            ),
+                                                            schedule
+                                                        )
+                                                    }
+                                                    className="text-s font-bold cursor-pointer hover:underline"
+                                                >
+                                                    {schedule.type}
+                                                </div>
+                                                <div className="text-s">
+                                                    {schedule.instructor}
+                                                </div>
+                                                <div className="text-s">
+                                                    {convertTimeFormat(
+                                                        schedule.time
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+                        </div>
                     ))}
                 </div>
             </div>
