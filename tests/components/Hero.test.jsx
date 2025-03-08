@@ -1,8 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { it, expect, describe } from 'vitest';
 import Hero from "../../src/components/Hero";
 import React from "react";
-import '@testing-library/jest-dom';
 
 describe("Hero Component", () => {
   it("renders the hero section", () => {

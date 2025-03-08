@@ -1,9 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import Features from "../../src/components/Features";
 import { ThemeProvider } from "@material-tailwind/react";
-import "@testing-library/jest-dom";
 
 describe("Features", () => {
     beforeAll(() => {
