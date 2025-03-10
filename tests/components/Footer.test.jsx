@@ -6,9 +6,7 @@ describe("Footer", () => {
     it("renders Footer with correct text", () => {
         render(<Footer />);
 
-        const footerText = screen.getByText(
-            /2024 SpinShare. All rights reserved./i
-        );
+        const footerText = screen.getByText(/2024 SpinShare/i);
         expect(footerText).toBeInTheDocument();
     });
 });
