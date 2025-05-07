@@ -17,7 +17,7 @@ const Absolute = () => {
     const validLocations = {
         STV: "absoluteSTV",
         CTP: "absoluteCTP",
-        MW: "absoluteMW",
+        //MW: "absoluteMW",
         KTG: "absoluteKTG",
     };
 

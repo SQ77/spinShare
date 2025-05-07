@@ -8,7 +8,7 @@ const Dropdown = ({ currLocation, handleClick, studio }) => {
     const dropdownRef = useRef(null);
     let locations = [];
     if (studio === "absolute") {
-        locations = ["STV", "CTP", "MW", "KTG"];
+        locations = ["STV", "CTP", "KTG"];
     } else {
         locations = ["TP", "Orchard", "Bugis"];
     }
